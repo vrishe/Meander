@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<toolkit:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+               xmlns:picker="https://trungnt2910.github.io/schemas/maui/2022/colorpicker"
+               xmlns:res="clr-namespace:Meander.Resources"
+               xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+               xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+               x:Class="Meander.ColorPickerPopup">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Border>
+            <picker:ColorPicker
+                x:Name="Picker"
+                ColorSpectrumStyle="TintToHueToShadeStyle"/>
+        </Border>
+        <Button Grid.Row="1"
+            Text="{x:Static res:App.OK}"
+            Clicked="Button_Clicked"
+            Margin="16"/>
+    </Grid>
+
+</toolkit:Popup>

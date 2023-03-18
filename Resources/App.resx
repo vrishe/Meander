@@ -117,14 +117,23 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AddSignalTrack" xml:space="preserve">
+    <value>Add Signal Track</value>
+  </data>
   <data name="AppTitle" xml:space="preserve">
     <value>Meander</value>
+  </data>
+  <data name="EditSignalTrack" xml:space="preserve">
+    <value>Edit Track</value>
   </data>
   <data name="New" xml:space="preserve">
     <value>New</value>
   </data>
   <data name="NewProject" xml:space="preserve">
     <value>New Project</value>
+  </data>
+  <data name="NewSignalTrack" xml:space="preserve">
+    <value>New Track</value>
   </data>
   <data name="OK" xml:space="preserve">
     <value>OK</value>
@@ -140,5 +149,14 @@
   </data>
   <data name="SetupProject" xml:space="preserve">
     <value>Setup Project</value>
+  </data>
+  <data name="Submit" xml:space="preserve">
+    <value>Submit</value>
+  </data>
+  <data name="TrackColor" xml:space="preserve">
+    <value>Track Color</value>
+  </data>
+  <data name="TrackName" xml:space="preserve">
+    <value>Track Name</value>
   </data>
 </root>

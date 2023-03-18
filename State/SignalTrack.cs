@@ -10,7 +10,7 @@ public sealed class SignalTrack
     {
         return base.Equals(obj)
             || obj is SignalTrack other
-            && Id == other.Id;
+                && Id == other.Id;
     }
 
     public override int GetHashCode() => Id.GetHashCode();

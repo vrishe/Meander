@@ -4,6 +4,7 @@
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:local="clr-namespace:Meander"
              xmlns:local_state="clr-namespace:Meander.State"
+             xmlns:res="clr-namespace:Meander.Resources"
              x:Class="Meander.MainPage"
              x:DataType="local:MainViewModel"
              Title="{Binding ProjectName}">
@@ -72,7 +73,7 @@
                            Aspect="AspectFit"
                            HeightRequest="56"
                            HorizontalOptions="Center"/>
-                    <Label Text="Add Signal Track"
+                    <Label Text="{x:Static res:App.AddSignalTrack}"
                            HorizontalOptions="Center"/>
                 </VerticalStackLayout>
                 <BoxView Color="Transparent">

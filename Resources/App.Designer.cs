@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Meander.Resources.Strings {
+namespace Meander.Resources {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace Meander.Resources.Strings {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Strings {
+    internal class App {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Strings() {
+        internal App() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace Meander.Resources.Strings {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Meander.Resources.Strings.Strings", typeof(Strings).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Meander.Resources.App", typeof(App).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,11 +61,29 @@ namespace Meander.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add Signal Track.
+        /// </summary>
+        internal static string AddSignalTrack {
+            get {
+                return ResourceManager.GetString("AddSignalTrack", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Meander.
         /// </summary>
         internal static string AppTitle {
             get {
                 return ResourceManager.GetString("AppTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit Track.
+        /// </summary>
+        internal static string EditSignalTrack {
+            get {
+                return ResourceManager.GetString("EditSignalTrack", resourceCulture);
             }
         }
         
@@ -84,6 +102,15 @@ namespace Meander.Resources.Strings {
         internal static string NewProject {
             get {
                 return ResourceManager.GetString("NewProject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New Track.
+        /// </summary>
+        internal static string NewSignalTrack {
+            get {
+                return ResourceManager.GetString("NewSignalTrack", resourceCulture);
             }
         }
         
@@ -129,6 +156,33 @@ namespace Meander.Resources.Strings {
         internal static string SetupProject {
             get {
                 return ResourceManager.GetString("SetupProject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Submit.
+        /// </summary>
+        internal static string Submit {
+            get {
+                return ResourceManager.GetString("Submit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Track Color.
+        /// </summary>
+        internal static string TrackColor {
+            get {
+                return ResourceManager.GetString("TrackColor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Track Name.
+        /// </summary>
+        internal static string TrackName {
+            get {
+                return ResourceManager.GetString("TrackName", resourceCulture);
             }
         }
     }

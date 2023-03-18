@@ -5,22 +5,23 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:c="clr-namespace:System.Collections.Generic;assembly=netstandard"
     xmlns:local="clr-namespace:Meander"
-    xmlns:res="clr-namespace:Meander.Resources.Strings"
+    xmlns:res="clr-namespace:Meander.Resources"
     Shell.FlyoutBehavior="Disabled">
 
     <local:AttachedProperties.RegisteredRoutes>
         <c:List x:TypeArguments="local:RegisteredRoute">
             <local:RegisteredRoute Route="{x:Static local:Routes.ProjectSetupRoute}" PageType="{x:Type local:ProjectSetupPage}" />
+            <local:RegisteredRoute Route="{x:Static local:Routes.EditSignalTrackRoute}" PageType="{x:Type local:EditSignalTrackPage}" />
         </c:List>
     </local:AttachedProperties.RegisteredRoutes>
     
     <ShellContent
-        Title="{x:Static res:Strings.AppTitle}"
+        Title="{x:Static res:App.AppTitle}"
         ContentTemplate="{DataTemplate local:StartUpPage}"
         Route="{x:Static local:Routes.StartupPageRoute}" />
 
     <ShellContent
-        Title="{x:Static res:Strings.AppTitle}"
+        Title="{x:Static res:App.AppTitle}"
         ContentTemplate="{DataTemplate local:MainPage}"
         Route="{x:Static local:Routes.MainPageRoute}" />
 

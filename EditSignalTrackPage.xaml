@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Meander"
+             xmlns:maui="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:res="clr-namespace:Meander.Resources"
+             x:Class="Meander.EditSignalTrackPage"
+             x:DataType="local:EditSignalTrackViewModel"
+             Title="{Binding NewTrack, Converter={local:BooleanConverter
+                        TrueValue={x:Static res:App.NewSignalTrack},
+                        FalseValue={x:Static res:App.EditSignalTrack}}}"
+             Padding="16">
+    <ContentPage.Resources>
+        <x:String x:Key="DefaultTrackName">NewSignalTrack</x:String>
+        <maui:Color x:Key="DefaultTrackColor">#FF00FF</maui:Color>
+    </ContentPage.Resources>
+    <Grid ColumnSpacing="8" RowSpacing="16">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Label Text="{x:Static res:App.TrackName}"
+               VerticalOptions="Center"/>
+        <Entry x:Name="TrackNameEntry"
+               Grid.Column="1"
+               HorizontalOptions="FillAndExpand"
+               MinimumWidthRequest="144"
+               Text="{Binding TrackName}"/>
+        <Label Grid.Row="1"
+               Text="{x:Static res:App.TrackColor}"
+               VerticalOptions="Center"/>
+        <BoxView Grid.Row="1"
+                 Grid.Column="1"
+                 Color="{Binding TrackColor, Mode=TwoWay}">
+            <BoxView.GestureRecognizers>
+                <maui:TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
+            </BoxView.GestureRecognizers>
+        </BoxView>
+
+        <Button Grid.ColumnSpan="99"
+                Grid.Row="2"
+                Text="{x:Static res:App.Submit}"
+                Command="{Binding DoSubmitCommand}"/>
+
+    </Grid>
+</ContentPage>

@@ -1,7 +1,11 @@
 ﻿using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
+using SkiaSharp.Views.Maui.Handlers;
 
 namespace Meander;
+
+using ColorPicker.Maui;
+using SkiaSharp.Views.Maui.Controls.Hosting;
 
 public static class MauiProgram
 {
@@ -11,6 +15,7 @@ public static class MauiProgram
 			.CreateBuilder()
 			.UseMauiApp<App>()
 			.UseMauiCommunityToolkit()
+			.UseSkiaSharp()
 			.ConfigureFonts(fonts =>
 			{
 				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
@@ -21,18 +26,23 @@ public static class MauiProgram
 		builder.Logging.AddDebug();
 #endif
 
-		builder.Services.AddLocalization();
+		builder.Services.AddLocalization(options =>
+		{
+			options.ResourcesPath = "Resources";
+		});
 
 		builder.Services.AddSingleton<IShellNavigation, CurrentShellNavigation>();
-        builder.Services.AddSingleton(StoreSetup.NewStore());
+		builder.Services.AddSingleton(StoreSetup.NewStore());
 
+		builder.Services.AddTransient<EditSignalTrackPage>();
+		builder.Services.AddTransient<EditSignalTrackViewModel>();
 		builder.Services.AddTransient<MainPage>();
 		builder.Services.AddTransient<MainViewModel>();
-        builder.Services.AddTransient<StartUpPage>();
-        builder.Services.AddTransient<StartUpViewModel>();
-        builder.Services.AddTransient<ProjectSetupPage>();
-        builder.Services.AddTransient<ProjectSetupViewModel>();
+		builder.Services.AddTransient<ProjectSetupPage>();
+		builder.Services.AddTransient<ProjectSetupViewModel>();
+		builder.Services.AddTransient<StartUpPage>();
+		builder.Services.AddTransient<StartUpViewModel>();
 
-        return builder.Build();
+		return builder.Build();
 	}
 }

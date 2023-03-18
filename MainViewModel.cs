@@ -11,15 +11,16 @@ namespace Meander;
 
 public sealed partial class MainViewModel : ObservableObject, IEnableable
 {
-    private readonly Random _rng = new();
+    private readonly IShellNavigation _navigation;
     private readonly ReduxStore<GlobalState> _store;
     private readonly IList<IDisposable> _subscriptions = new List<IDisposable>();
 
     [ObservableProperty]
     private string _projectName;
 
-    public MainViewModel(ReduxStore<GlobalState> store)
+    public MainViewModel(IShellNavigation navigation, ReduxStore<GlobalState> store)
     {
+        _navigation = navigation;
         _store = store;
 
         Tracks.Add(this);
@@ -57,20 +58,8 @@ public sealed partial class MainViewModel : ObservableObject, IEnableable
     }
 
     [RelayCommand]
-    private void DoAddNewSignalTrack()
+    private Task DoAddNewSignalTrack()
     {
-        _store.Dispatch(new AddNewSignalTrackAction
-        {
-            Name = "puk-puk",
-            Color = RandomizeColor(_rng.NextSingle(), .64f, .7f).ToHex()
-        });
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static Color RandomizeColor(float r, float s, float v)
-    {
-        const float phiRecip = (float)(1 / 1.61803398875);
-        var h = (r + phiRecip) % 1;
-        return Color.FromHsv(h, s, v);
+        return _navigation.GoToAsync(Routes.EditSignalTrackUrl);
     }
 }

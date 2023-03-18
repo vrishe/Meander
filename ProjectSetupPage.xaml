@@ -4,10 +4,10 @@
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:c="clr-namespace:System.Collections.Generic;assembly=System.Core"
              xmlns:local="clr-namespace:Meander"
-             xmlns:res="clr-namespace:Meander.Resources.Strings"
+             xmlns:res="clr-namespace:Meander.Resources"
              x:Class="Meander.ProjectSetupPage"
              x:DataType="local:ProjectSetupViewModel"
-             Title="{x:Static res:Strings.SetupProject}"
+             Title="{x:Static res:App.SetupProject}"
              Padding="16">
     <Grid ColumnSpacing="8" RowSpacing="16">
         <Grid.ColumnDefinitions>
@@ -20,28 +20,28 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <Label Text="{x:Static res:Strings.ProjectName}"
+        <Label Text="{x:Static res:App.ProjectName}"
                VerticalOptions="Center"/>
         <Entry x:Name="ProjectNameEntry"
                Grid.Column="1"
                HorizontalOptions="FillAndExpand"
                MinimumWidthRequest="144"
                Text="{Binding ProjectName, Mode=OneWayToSource}"
-               local:AttachedProperties.DefaultText="{x:Static res:Strings.NewProject}"/>
+               local:AttachedProperties.DefaultText="{x:Static res:App.NewProject}"/>
         <Label Grid.Row="1"
-               Text="{x:Static res:Strings.SamplesCount}"
-               VerticalOptions="Center"/>
+               Text="{x:Static res:App.SamplesCount}"
+               VerticalOptions="Center" />
         <Entry x:Name="SamplesCountEntry"
                Grid.Column="1"
                Grid.Row="1"
                HorizontalTextAlignment="End"
                Text="{Binding SamplesCountText, Mode=OneWayToSource}"
-               local:AttachedProperties.DefaultText="1">
-        </Entry>
+               local:AttachedProperties.DefaultText="1"/>
+
 
         <Button Grid.ColumnSpan="99"
                 Grid.Row="2"
-                Text="{x:Static res:Strings.OK}"
+                Text="{x:Static res:App.OK}"
                 Command="{Binding DoCreateNewProjectCommand}"/>
 
     </Grid>
