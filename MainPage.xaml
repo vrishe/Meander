@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:local="clr-namespace:Meander"
+             xmlns:local_state="clr-namespace:Meander.State"
+             x:Class="Meander.MainPage"
+             x:DataType="local:MainViewModel"
+             Title="{Binding ProjectName}">
+
+    <ContentPage.Resources>
+
+        <DataTemplate 
+                      x:Key="ExistingSignalTrackItem"
+                      x:DataType="local_state:SignalTrack">
+            <Grid>
+                <Grid.Resources>
+                    <local:FromArgbToColorConverter x:Key="ColorCVT"/>
+                </Grid.Resources>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="192"/>
+                    <ColumnDefinition Width="1"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="192"/>
+                    <RowDefinition Height="1"/>
+                </Grid.RowDefinitions>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="12"/>
+                        <ColumnDefinition Width="16"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Rectangle Grid.Column="0"
+                               BackgroundColor="{Binding Color, Converter={StaticResource ColorCVT}}"/>
+                    <Label Grid.Column="2"
+                           Text="{Binding Name}"
+                           VerticalOptions="Center"/>
+                </Grid>
+                <Rectangle Grid.Column="1"
+                           BackgroundColor="#BEBEBE"/>
+                <Label Grid.Column="2"
+                       Text="Graph will be here soon"
+                       BackgroundColor="#2C2C2C"
+                       HorizontalTextAlignment="Center"
+                       VerticalTextAlignment="Center"/>
+                <Rectangle Grid.ColumnSpan="99"
+                           Grid.Row="1"
+                           BackgroundColor="#BEBEBE"/>
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="NewSignalTrackItem">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="192"/>
+                    <ColumnDefinition Width="1"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="192"/>
+                    <RowDefinition Height="1"/>
+                </Grid.RowDefinitions>
+                <VerticalStackLayout HorizontalOptions="Fill"
+                                     VerticalOptions="Center"
+                                     Spacing="16">
+                    <Image Source="plus.png"
+                           Aspect="AspectFit"
+                           HeightRequest="56"
+                           HorizontalOptions="Center"/>
+                    <Label Text="Add Signal Track"
+                           HorizontalOptions="Center"/>
+                </VerticalStackLayout>
+                <BoxView Color="Transparent">
+                    <BoxView.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding DoAddNewSignalTrackCommand}"/>
+                    </BoxView.GestureRecognizers>
+                </BoxView>
+                <Rectangle Grid.Column="1"
+                           BackgroundColor="#BEBEBE"/>
+                <Rectangle Grid.ColumnSpan="99"
+                           Grid.Row="1"
+                           BackgroundColor="#BEBEBE"/>
+            </Grid>
+        </DataTemplate>
+
+        <local:SignalTrackTemplateSelector
+            x:Key="SignalTrackTS"
+            Regular="{StaticResource ExistingSignalTrackItem}"
+            Trailing="{StaticResource NewSignalTrackItem}"/>
+
+    </ContentPage.Resources>
+
+    <CollectionView
+        ItemTemplate="{StaticResource SignalTrackTS}"
+        ItemsLayout="VerticalList"
+        ItemsSource="{Binding Tracks}"/>
+
+</ContentPage>

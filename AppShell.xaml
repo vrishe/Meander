@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="Meander.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:c="clr-namespace:System.Collections.Generic;assembly=netstandard"
+    xmlns:local="clr-namespace:Meander"
+    xmlns:res="clr-namespace:Meander.Resources.Strings"
+    Shell.FlyoutBehavior="Disabled">
+
+    <local:AttachedProperties.RegisteredRoutes>
+        <c:List x:TypeArguments="local:RegisteredRoute">
+            <local:RegisteredRoute Route="{x:Static local:Routes.ProjectSetupRoute}" PageType="{x:Type local:ProjectSetupPage}" />
+        </c:List>
+    </local:AttachedProperties.RegisteredRoutes>
+    
+    <ShellContent
+        Title="{x:Static res:Strings.AppTitle}"
+        ContentTemplate="{DataTemplate local:StartUpPage}"
+        Route="{x:Static local:Routes.StartupPageRoute}" />
+
+    <ShellContent
+        Title="{x:Static res:Strings.AppTitle}"
+        ContentTemplate="{DataTemplate local:MainPage}"
+        Route="{x:Static local:Routes.MainPageRoute}" />
+
+</Shell>
