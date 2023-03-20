@@ -2,6 +2,6 @@
 
 internal interface IEnableable
 {
-    void OnDisable();
-    void OnEnable();
+    void OnDisabled();
+    void OnEnabled();
 }

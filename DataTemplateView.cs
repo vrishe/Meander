@@ -1,7 +1,5 @@
 ﻿namespace Meander;
 
-using Microsoft.Maui.Controls.Compatibility;
-
 internal class DataTemplateView : Frame
 {
     private Element _content;
@@ -13,7 +11,7 @@ internal class DataTemplateView : Frame
 
     public object DataSource
     {
-        get { return (object)GetValue(DataSourceProperty); }
+        get { return GetValue(DataSourceProperty); }
         set { SetValue(DataSourceProperty, value); }
     }
 

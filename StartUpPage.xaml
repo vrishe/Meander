@@ -5,8 +5,9 @@
              xmlns:res="clr-namespace:Meander.Resources"
              x:Class="Meander.StartUpPage"
              x:DataType="local:StartUpViewModel"
-             Title="{x:Static res:App.AppTitle}">
-    <VerticalStackLayout>
+             Title="{x:Static res:App.AppTitle}"
+             Padding="16">
+    <VerticalStackLayout Spacing="16">
         <Button Text="{x:Static res:App.New}"
                 Command="{Binding DoNewCommand}"/>
         <Button Text="{x:Static res:App.Open}"

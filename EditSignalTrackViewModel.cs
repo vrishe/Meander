@@ -109,7 +109,7 @@ public sealed partial class EditSignalTrackViewModel : ObservableObject, IQueryA
     {
         TrackEditor = TrackSignalKind switch
         {
-            SignalKind.Meander => new EditMeanderSignalViewModel(),
+            SignalKind.Meander => new EditMeanderSignalViewModel(_store),
             _ => throw new NotImplementedException()
         };
     }

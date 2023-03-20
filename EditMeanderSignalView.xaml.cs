@@ -1,6 +1,3 @@
-using Meander.State;
-using ReduxSimple;
-
 namespace Meander;
 
 public partial class EditMeanderSignalView : ContentView
@@ -8,5 +5,6 @@ public partial class EditMeanderSignalView : ContentView
 	public EditMeanderSignalView()
 	{
 		InitializeComponent();
+        this.WithEnableable();
 	}
 }

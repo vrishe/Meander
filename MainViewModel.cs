@@ -1,9 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Reactive.Linq;
-using System.Runtime.CompilerServices;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Meander.Actions;
 using Meander.State;
 using ReduxSimple;
 
@@ -28,12 +26,12 @@ public sealed partial class MainViewModel : ObservableObject, IEnableable
 
     public ObservableCollection<object> Tracks { get; } = new();
 
-    public void OnDisable()
+    public void OnDisabled()
     {
         _subscriptions.DisposeAll().Clear();
     }
 
-    public void OnEnable()
+    public void OnEnabled()
     {
         _store.Select(s => s.ProjectName)
             .DistinctUntilChanged()
