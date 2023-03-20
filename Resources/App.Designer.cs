@@ -88,6 +88,15 @@ namespace Meander.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Meander.
+        /// </summary>
+        internal static string Meander {
+            get {
+                return ResourceManager.GetString("Meander", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to New.
         /// </summary>
         internal static string New {
@@ -156,6 +165,15 @@ namespace Meander.Resources {
         internal static string SetupProject {
             get {
                 return ResourceManager.GetString("SetupProject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Signal Kind.
+        /// </summary>
+        internal static string SignalKind {
+            get {
+                return ResourceManager.GetString("SignalKind", resourceCulture);
             }
         }
         

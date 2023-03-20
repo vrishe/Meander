@@ -86,6 +86,9 @@
 	  <MauiXaml Update="ColorPickerPopup.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="EditMeanderSignalView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="EditSignalTrackPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

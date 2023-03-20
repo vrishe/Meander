@@ -17,7 +17,7 @@ internal sealed class DiscreteSignal : ISignal
         }
     }
 
-    public SignalKind Kind => SignalKind.Discrete;
+    public SignalKind Kind => SignalKind.Meander;
 
     public double this[int i] => _samples[i];
 

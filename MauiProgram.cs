@@ -1,11 +1,8 @@
 ﻿using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
-using SkiaSharp.Views.Maui.Handlers;
+using SkiaSharp.Views.Maui.Controls.Hosting;
 
 namespace Meander;
-
-using ColorPicker.Maui;
-using SkiaSharp.Views.Maui.Controls.Hosting;
 
 public static class MauiProgram
 {
@@ -26,10 +23,7 @@ public static class MauiProgram
 		builder.Logging.AddDebug();
 #endif
 
-		builder.Services.AddLocalization(options =>
-		{
-			options.ResourcesPath = "Resources";
-		});
+		builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
 
 		builder.Services.AddSingleton<IShellNavigation, CurrentShellNavigation>();
 		builder.Services.AddSingleton(StoreSetup.NewStore());

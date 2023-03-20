@@ -1,6 +1,8 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Meander.Signals;
 using Meander.State;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
@@ -18,6 +20,9 @@ public sealed partial class EditSignalTrackViewModel : ObservableObject, IQueryA
     private readonly ReduxStore<GlobalState> _store;
 
     [ObservableProperty]
+    private bool _newTrack;
+
+    [ObservableProperty]
     private Color _trackColor;
 
     [ObservableProperty]
@@ -25,7 +30,10 @@ public sealed partial class EditSignalTrackViewModel : ObservableObject, IQueryA
     private string _trackName;
 
     [ObservableProperty]
-    public bool _newTrack;
+    private SignalKind _trackSignalKind;
+
+    [ObservableProperty]
+    private object _trackEditor;
 
     public EditSignalTrackViewModel(IShellNavigation navigation, IStringLocalizer<App> localizer, ILoggerProvider loggerProvider, ReduxStore<GlobalState> store)
     {
@@ -33,6 +41,8 @@ public sealed partial class EditSignalTrackViewModel : ObservableObject, IQueryA
         _localizer = localizer;
         _logger = loggerProvider.CreateLogger(nameof(EditSignalTrackViewModel));
         _store = store;
+
+        UpdateTrackSignalEditor();
     }
 
     public string DefaultTrackName { get; set; }
@@ -58,6 +68,18 @@ public sealed partial class EditSignalTrackViewModel : ObservableObject, IQueryA
         NewTrack = false;
     }
 
+    protected override void OnPropertyChanged(PropertyChangedEventArgs e)
+    {
+        base.OnPropertyChanged(e);
+
+        switch (e.PropertyName)
+        {
+            case nameof(TrackSignalKind):
+                UpdateTrackSignalEditor();
+                break;
+        }
+    }
+
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static Color RandomizeColor(float r, float s, float v)
     {
@@ -81,5 +103,14 @@ public sealed partial class EditSignalTrackViewModel : ObservableObject, IQueryA
         }
 
         return _navigation.GoToAsync("../");
+    }
+
+    private void UpdateTrackSignalEditor()
+    {
+        TrackEditor = TrackSignalKind switch
+        {
+            SignalKind.Meander => new EditMeanderSignalViewModel(),
+            _ => throw new NotImplementedException()
+        };
     }
 }

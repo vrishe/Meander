@@ -126,6 +126,9 @@
   <data name="EditSignalTrack" xml:space="preserve">
     <value>Edit Track</value>
   </data>
+  <data name="Meander" xml:space="preserve">
+    <value>Meander</value>
+  </data>
   <data name="New" xml:space="preserve">
     <value>New</value>
   </data>
@@ -149,6 +152,9 @@
   </data>
   <data name="SetupProject" xml:space="preserve">
     <value>Setup Project</value>
+  </data>
+  <data name="SignalKind" xml:space="preserve">
+    <value>Signal Kind</value>
   </data>
   <data name="Submit" xml:space="preserve">
     <value>Submit</value>

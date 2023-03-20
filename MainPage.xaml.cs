@@ -1,7 +1,4 @@
-﻿using System.Globalization;
-using CommunityToolkit.Maui.Converters;
-
-namespace Meander;
+﻿namespace Meander;
 
 public partial class MainPage : ContentPage
 {
@@ -23,11 +20,4 @@ internal sealed class SignalTrackTemplateSelector : DataTemplateSelector
     {
         return item is not MainViewModel ? Regular : Trailing;
     }
-}
-
-internal sealed class FromArgbToColorConverter : BaseConverterOneWay<string, Color>
-{
-    public override Color DefaultConvertReturnValue { get; set; } = Colors.Magenta;
-
-    public override Color ConvertFrom(string value, CultureInfo culture) => Color.FromArgb(value);
 }

@@ -2,10 +2,10 @@
 
 public enum SignalKind
 {
-    Discrete,
+    Meander,
 
     // etc.
-    //DiscreteParametric,
     //Sawtooth,
-    //SawtoothParametric,
+    //Sinewave,
+    //SinewaveParametric,
 }
