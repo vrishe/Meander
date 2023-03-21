@@ -178,6 +178,15 @@ namespace Meander.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Step Level #{0}.
+        /// </summary>
+        internal static string StepLevelFormat {
+            get {
+                return ResourceManager.GetString("StepLevelFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Submit.
         /// </summary>
         internal static string Submit {

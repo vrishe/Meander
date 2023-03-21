@@ -87,6 +87,7 @@ internal class DataTemplateView : Frame
         var newContent = dataTemplate.CreateContent() as View;
         if (newContent == null) throw new Exception($"{nameof(DataTemplate)} has generated a 'null' content.");
 
+        newContent.BindingContext = DataSource;
         SetContent(newContent, dataSource);
     }
 }

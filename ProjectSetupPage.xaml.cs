@@ -9,10 +9,8 @@ public partial class ProjectSetupPage : ContentPage
 		InitializeComponent();
 
 		BindingContext = vm;
+        this.FillBindingContextResourceValues();
 
-        ProjectNameEntry.Text = ProjectNameEntry.GetDefaultText();
         ProjectNameEntry.CursorPosition = ProjectNameEntry.Text?.Length ?? 0;
-        ProjectNameEntry.Focus();
-        SamplesCountEntry.Text = SamplesCountEntry.GetDefaultText();
     }
 }

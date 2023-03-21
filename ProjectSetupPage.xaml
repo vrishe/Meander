@@ -9,6 +9,10 @@
              x:DataType="local:ProjectSetupViewModel"
              Title="{x:Static res:App.SetupProject}"
              Padding="16">
+    <ContentPage.Resources>
+        <x:String x:Key="DefaultProjectName">NewProject</x:String>
+        <x:Int32 x:Key="DefaultSamplesCount">16</x:Int32>
+    </ContentPage.Resources>
     <Grid ColumnSpacing="8" RowSpacing="16">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
@@ -26,18 +30,17 @@
                Grid.Column="1"
                HorizontalOptions="FillAndExpand"
                MinimumWidthRequest="144"
-               Text="{Binding ProjectName, Mode=OneWayToSource}"
-               local:AttachedProperties.DefaultText="{x:Static res:App.NewProject}"/>
+               Text="{Binding ProjectName}"/>
         <Label Grid.Row="1"
                Text="{x:Static res:App.SamplesCount}"
                VerticalOptions="Center" />
-        <Entry x:Name="SamplesCountEntry"
-               Grid.Column="1"
+        <Entry Grid.Column="1"
                Grid.Row="1"
-               HorizontalTextAlignment="End"
-               Text="{Binding SamplesCountText, Mode=OneWayToSource}"
-               local:AttachedProperties.DefaultText="1"/>
-
+               HorizontalTextAlignment="End">
+            <Entry.Behaviors>
+                <local:IntegerNumberInputBehaviour Value="{Binding SamplesCount}" />
+            </Entry.Behaviors>
+        </Entry>
 
         <Button Grid.ColumnSpan="99"
                 Grid.Row="2"

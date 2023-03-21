@@ -17,15 +17,6 @@
         <local:PickerDataSource x:Key="SignalKindsDict">
             <sc:DictionaryEntry Key="{x:Static local_signals:SignalKind.Meander}" Value="{x:Static res:App.Meander}"/>
         </local:PickerDataSource>
-        <!--<local:Dict x:Key="SignalDataTemplatesDict">
-            <sc:DictionaryEntry Key="{x:Static local_signals:SignalKind.Meander}">
-                <sc:DictionaryEntry.Value>
-                    <ControlTemplate>
-                        <local:EditMeanderSignalView />
-                    </ControlTemplate>
-                </sc:DictionaryEntry.Value>
-            </sc:DictionaryEntry>
-        </local:Dict>-->
         <local:EditSignalTrackTemplateSelector x:Key="TrackEditorTS" />
     </ContentPage.Resources>
     <ContentPage.Triggers>
@@ -87,11 +78,14 @@
                             FallbackValue='missing mapping entry'}
                         }"/>
 
-            <local:DataTemplateView Grid.ColumnSpan="99"
-                                    Grid.Row="3"
-                                    DataSource="{Binding TrackEditor}"
-                                    DataTemplate="{StaticResource TrackEditorTS}" />
-
+            <Border Grid.ColumnSpan="99"
+                    Grid.Row="3"
+                    Stroke="{StaticResource Gray200}"
+                    StrokeThickness="1">
+                <local:DataTemplateView DataSource="{Binding TrackEditor}"
+                                        DataTemplate="{StaticResource TrackEditorTS}" />
+            </Border>
+        
             <Button Grid.ColumnSpan="99"
                     Grid.Row="4"
                     Text="{x:Static res:App.Submit}"

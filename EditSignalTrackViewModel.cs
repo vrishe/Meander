@@ -45,7 +45,10 @@ public sealed partial class EditSignalTrackViewModel : ObservableObject, IQueryA
         UpdateTrackSignalEditor();
     }
 
+    [ResourceValue]
     public string DefaultTrackName { get; set; }
+
+    [ResourceValue]
     public Color DefaultTrackColor { get; set; }
 
     public bool CanSubmit => !string.IsNullOrEmpty(TrackName);

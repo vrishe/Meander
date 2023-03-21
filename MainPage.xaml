@@ -43,7 +43,7 @@
                            VerticalOptions="Center"/>
                 </Grid>
                 <Rectangle Grid.Column="1"
-                           BackgroundColor="#BEBEBE"/>
+                           BackgroundColor="{StaticResource Gray200}"/>
                 <Label Grid.Column="2"
                        Text="Graph will be here soon"
                        BackgroundColor="#2C2C2C"
@@ -51,7 +51,7 @@
                        VerticalTextAlignment="Center"/>
                 <Rectangle Grid.ColumnSpan="99"
                            Grid.Row="1"
-                           BackgroundColor="#BEBEBE"/>
+                           BackgroundColor="{StaticResource Gray200}"/>
             </Grid>
         </DataTemplate>
 
@@ -82,10 +82,10 @@
                     </BoxView.GestureRecognizers>
                 </BoxView>
                 <Rectangle Grid.Column="1"
-                           BackgroundColor="#BEBEBE"/>
+                           BackgroundColor="{StaticResource Gray200}"/>
                 <Rectangle Grid.ColumnSpan="99"
                            Grid.Row="1"
-                           BackgroundColor="#BEBEBE"/>
+                           BackgroundColor="{StaticResource Gray200}"/>
             </Grid>
         </DataTemplate>
 

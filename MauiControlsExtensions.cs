@@ -1,4 +1,6 @@
 ﻿using System.ComponentModel;
+using System.Reflection;
+using Microsoft.Extensions.Logging;
 
 namespace Meander;
 
@@ -88,31 +90,39 @@ internal static class MauiControlsExtensions
         return dst;
     }
 
-    public static void SubscribeBindingContextHandlers(this Page page)
+    public static void FillBindingContextResourceValues(this VisualElement dst)
     {
-        if (page?.BindingContext is IEnableable enableable)
-        {
-            page.Appearing += (_, _) => enableable.OnEnabled();
-            page.Disappearing += (_, _) => enableable.OnDisabled();
-            // TODO: binding context change handling is missing.
-        }
-    }
+        if (dst is null) throw new ArgumentNullException(nameof(dst));
 
-    public static void PropagateResourceValuesToBindingContext(this VisualElement page)
-    {
-        if (page.BindingContext is null) return;
+        var bc = dst.BindingContext;
+        if (bc is null) return;
 
-        var bc = page.BindingContext;
-        var bcType = bc.GetType();
-        foreach (var (p, v) in page.Resources
-            .Select(kvp => (p: bcType.GetProperty(kvp.Key), v: kvp.Value))
-            .Where(t => t.p?.CanWrite == true && !t.p.SetMethod.IsStatic
-                    && (
-                        (t.v is null && t.p.PropertyType.IsClass)
-                            || (t.v is not null && t.p.PropertyType.IsAssignableFrom(t.v.GetType())))
-                    ))
+        var type = bc.GetType();
+        var props = type.GetRuntimeProperties().Where(pi => pi.CanWrite)
+            .Select(pi => (pi, attr: pi.GetCustomAttribute<ResourceValueAttribute>())).Where(t => t.attr != null);
+
+        var res = dst.Resources;
+        var logger = new Lazy<ILogger>(() => App.FindMauiContext(dst).Services.GetService<ILoggerFactory>()?.CreateLogger(dst.GetType()),
+            LazyThreadSafetyMode.None);
+        foreach (var (pi, attr) in props)
         {
-            p.SetValue(bc, v);
+            var key = attr.Alias ?? pi.Name;
+
+            try
+            {
+                pi.SetValue(bc, Convert.ChangeType(res[key], pi.PropertyType));
+            }
+            catch (Exception e)
+            {
+                logger.Value?.LogError(e, "Failed to assign '{}' resource value to {}.{}", key, type.FullName, pi.Name);
+            }
         }
+
+        (bc as IFinishedApplyResourceValues)?.OnResourceValuesApplied();
     }
+}
+
+internal interface IFinishedApplyResourceValues
+{
+    void OnResourceValuesApplied();
 }

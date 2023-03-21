@@ -4,13 +4,16 @@ using ReduxSimple;
 
 namespace Meander;
 
-internal sealed partial class EditMeanderSignalViewModel : ObservableObject, IEnableable
+public sealed partial class EditMeanderSignalViewModel : ObservableObject, IEnableable
 {
     private readonly ReduxStore<GlobalState> _store;
     private readonly IList<IDisposable> _subscriptions = new List<IDisposable>();
 
     [ObservableProperty]
     private string _testProp;
+
+    [ObservableProperty]
+    private ICollection<LevelInputData> _steps;
 
     public EditMeanderSignalViewModel(ReduxStore<GlobalState> store)
     {
@@ -24,6 +27,16 @@ internal sealed partial class EditMeanderSignalViewModel : ObservableObject, IEn
 
     public void OnEnabled()
     {
-        _store.Select(s => $"{s.ProjectName} @ {s.SamplesCount}").Subscribe(s => TestProp = s);
+        var state = _store.State;
+        Steps = Enumerable.Range(1, state.SamplesCount)
+            .Select(n => new LevelInputData { Number = n })
+            .ToList();
     }
+}
+
+public sealed class LevelInputData
+{
+    public int Number { get; set; }
+
+    public double Value { get; set; }
 }
