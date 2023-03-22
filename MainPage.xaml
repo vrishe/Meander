@@ -1,22 +1,23 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:local="clr-namespace:Meander"
-             xmlns:local_state="clr-namespace:Meander.State"
-             xmlns:res="clr-namespace:Meander.Resources"
-             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:t="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:app="clr-namespace:Meander"
+             xmlns:app_controls="clr-namespace:Meander.Controls"
+             xmlns:app_resources="clr-namespace:Meander.Resources"
+             xmlns:app_state="clr-namespace:Meander.State"
              x:Class="Meander.MainPage"
-             x:DataType="local:MainViewModel"
+             x:DataType="app:MainViewModel"
              Title="{Binding ProjectName}">
 
     <ContentPage.Resources>
 
-        <local:RevertedConversion x:Key="ColorCVT">
-            <toolkit:ColorToHexRgbStringConverter/>
-        </local:RevertedConversion>
+        <app_controls:RevertedConversion x:Key="ColorCVT">
+            <t:ColorToHexRgbStringConverter/>
+        </app_controls:RevertedConversion>
 
         <DataTemplate x:Key="ExistingSignalTrackItem"
-                      x:DataType="local_state:SignalTrack">
+                      x:DataType="app_state:SignalTrack">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="192"/>
@@ -42,6 +43,13 @@
                            Text="{Binding Name}"
                            VerticalOptions="Center"/>
                 </Grid>
+                <BoxView Color="Transparent">
+                    <BoxView.GestureRecognizers>
+                        <TapGestureRecognizer CommandParameter="{Binding Id}"
+                                              Command="{Binding DoEditSignalTrackCommand,
+                            Source={x:RelativeSource AncestorType={x:Type app:MainViewModel}}}"/>
+                    </BoxView.GestureRecognizers>
+                </BoxView>
                 <Rectangle Grid.Column="1"
                            BackgroundColor="{StaticResource Gray200}"/>
                 <Label Grid.Column="2"
@@ -73,7 +81,7 @@
                            Aspect="AspectFit"
                            HeightRequest="56"
                            HorizontalOptions="Center"/>
-                    <Label Text="{x:Static res:App.AddSignalTrack}"
+                    <Label Text="{x:Static app_resources:Strings.AddSignalTrack}"
                            HorizontalOptions="Center"/>
                 </VerticalStackLayout>
                 <BoxView Color="Transparent">
@@ -89,7 +97,7 @@
             </Grid>
         </DataTemplate>
 
-        <local:SignalTrackTemplateSelector
+        <app:SignalTrackTemplateSelector
             x:Key="SignalTrackTS"
             Regular="{StaticResource ExistingSignalTrackItem}"
             Trailing="{StaticResource NewSignalTrackItem}"/>

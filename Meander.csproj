@@ -30,7 +30,7 @@
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
 	</PropertyGroup>
 
-	<ItemGroup>
+  <ItemGroup>
 		<!-- App Icon -->
 		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
 
@@ -65,10 +65,10 @@
 	  <Compile Update="AppShell.xaml.cs">
 	    <DependentUpon>AppShell.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="Resources\App.Designer.cs">
+	  <Compile Update="Resources\Strings.Designer.cs">
 	    <DesignTime>True</DesignTime>
 	    <AutoGen>True</AutoGen>
-	    <DependentUpon>App.resx</DependentUpon>
+	    <DependentUpon>Strings.resx</DependentUpon>
 	  </Compile>
 	  <Compile Update="ProjectSetupPage.xaml.cs">
 	    <DependentUpon>ProjectSetupPage.xaml</DependentUpon>
@@ -76,9 +76,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <EmbeddedResource Update="Resources\App.resx">
-	    <Generator>ResXFileCodeGenerator</Generator>
-	    <LastGenOutput>App.Designer.cs</LastGenOutput>
+	  <EmbeddedResource Update="Resources\Strings.resx">
+	    <Generator>PublicResXFileCodeGenerator</Generator>
+	    <LastGenOutput>Strings.Designer.cs</LastGenOutput>
 	  </EmbeddedResource>
 	</ItemGroup>
 

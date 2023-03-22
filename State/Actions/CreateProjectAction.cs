@@ -1,4 +1,4 @@
-﻿namespace Meander.Actions;
+﻿namespace Meander.State.Actions;
 
 public class CreateProjectAction
 {

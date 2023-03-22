@@ -38,7 +38,7 @@ public sealed partial class MainViewModel : ObservableObject, IEnableable
             .Subscribe(pn => ProjectName = pn)
             .PutOnRecord(_subscriptions);
 
-        _ = _store.Select(s => s.Tracks)
+        _store.Select(s => s.Tracks)
             .DistinctUntilChanged()
             .Subscribe(t =>
             {
@@ -59,5 +59,14 @@ public sealed partial class MainViewModel : ObservableObject, IEnableable
     private Task DoAddNewSignalTrack()
     {
         return _navigation.GoToAsync(Routes.EditSignalTrackUrl);
+    }
+
+    [RelayCommand]
+    private Task DoEditSignalTrack(Guid trackId)
+    {
+        return _navigation.GoToAsync(Routes.EditSignalTrackUrl,
+            new Dictionary<string, object> {
+                [Routes.EditSignalTrackQueryParams.TrackId] = trackId
+            });
     }
 }

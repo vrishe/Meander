@@ -23,7 +23,7 @@ public static class MauiProgram
 		builder.Logging.AddDebug();
 #endif
 
-		builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
+		builder.Services.AddLocalization();
 
 		builder.Services.AddSingleton<IShellNavigation, CurrentShellNavigation>();
 		builder.Services.AddSingleton(StoreSetup.NewStore());

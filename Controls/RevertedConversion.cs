@@ -1,9 +1,9 @@
 ﻿using System.Globalization;
 
-namespace Meander;
+namespace Meander.Controls;
 
 [ContentProperty(nameof(InnerConverter))]
-internal sealed class RevertedConversion : IValueConverter
+public sealed class RevertedConversion : IValueConverter
 {
     public IValueConverter InnerConverter { get; set; }
 

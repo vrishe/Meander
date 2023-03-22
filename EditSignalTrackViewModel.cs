@@ -4,7 +4,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Meander.Signals;
 using Meander.State;
-using Microsoft.Extensions.Localization;
+using Meander.State.Actions;
 using Microsoft.Extensions.Logging;
 using ReduxSimple;
 
@@ -14,9 +14,8 @@ using static Routes.EditSignalTrackQueryParams;
 
 public sealed partial class EditSignalTrackViewModel : ObservableObject, IQueryAttributable
 {
-    private readonly IShellNavigation _navigation;
-    private readonly IStringLocalizer _localizer;
     private readonly ILogger _logger;
+    private readonly IShellNavigation _navigation;
     private readonly ReduxStore<GlobalState> _store;
 
     [ObservableProperty]
@@ -35,21 +34,20 @@ public sealed partial class EditSignalTrackViewModel : ObservableObject, IQueryA
     [ObservableProperty]
     private object _trackEditor;
 
-    public EditSignalTrackViewModel(IShellNavigation navigation, IStringLocalizer<App> localizer, ILoggerProvider loggerProvider, ReduxStore<GlobalState> store)
+    private ISignalDataFactory _signalDataFactory;
+    private SignalTrack _signalTrack;
+
+    public EditSignalTrackViewModel(ILoggerProvider loggerProvider, IShellNavigation navigation, ReduxStore<GlobalState> store)
     {
-        _navigation = navigation;
-        _localizer = localizer;
         _logger = loggerProvider.CreateLogger(nameof(EditSignalTrackViewModel));
+        _navigation = navigation;
         _store = store;
 
-        UpdateTrackSignalEditor();
+        UpdateSignalTrackEditor();
     }
 
     [ResourceValue]
     public string DefaultTrackName { get; set; }
-
-    [ResourceValue]
-    public Color DefaultTrackColor { get; set; }
 
     public bool CanSubmit => !string.IsNullOrEmpty(TrackName);
 
@@ -57,18 +55,27 @@ public sealed partial class EditSignalTrackViewModel : ObservableObject, IQueryA
     {
         if (!query.TryGetValue(TrackId, out var trackId))
         {
-            var trackName = _localizer[DefaultTrackName];
+            var trackName = DefaultTrackName;
             var similarNamedTracksCount = _store.State.Tracks.Count(t => t.Name.Equals(trackName, StringComparison.CurrentCultureIgnoreCase));
             TrackName = similarNamedTracksCount > 0 ? $"{trackName} ({similarNamedTracksCount})" : trackName;
             TrackColor = RandomizeColor(new Random(GetHashCode() ^ Environment.TickCount).NextSingle(), .64f, .7f);
+#pragma warning disable MVVMTK0034 // Direct field reference to [ObservableProperty] backing field
+            _trackSignalKind = default;
+#pragma warning restore MVVMTK0034 // Direct field reference to [ObservableProperty] backing field
             NewTrack = true;
-            return;
+        }
+        else
+        {
+            _signalTrack = _store.State.Tracks.FirstOrDefault(t => trackId.Equals(t.Id));
+            TrackName = _signalTrack.Name;
+            TrackColor = Color.FromArgb(_signalTrack.Color);
+#pragma warning disable MVVMTK0034 // Direct field reference to [ObservableProperty] backing field
+            _trackSignalKind = _signalTrack.SignalKind;
+#pragma warning restore MVVMTK0034 // Direct field reference to [ObservableProperty] backing field
+            NewTrack = false;
         }
 
-        var track = _store.State.Tracks.FirstOrDefault(t => trackId.Equals(t.Id));
-        TrackName = track.Name;
-        TrackColor = Color.FromArgb(track.Color);
-        NewTrack = false;
+        UpdateSignalTrackEditor();
     }
 
     protected override void OnPropertyChanged(PropertyChangedEventArgs e)
@@ -78,7 +85,7 @@ public sealed partial class EditSignalTrackViewModel : ObservableObject, IQueryA
         switch (e.PropertyName)
         {
             case nameof(TrackSignalKind):
-                UpdateTrackSignalEditor();
+                UpdateSignalTrackEditor();
                 break;
         }
     }
@@ -96,24 +103,39 @@ public sealed partial class EditSignalTrackViewModel : ObservableObject, IQueryA
     {
         if (NewTrack)
         {
-            _store.Dispatch(new Actions.AddNewSignalTrackAction {
+            _store.Dispatch(new AddNewSignalTrackAction {
+                Name = TrackName,
                 Color = TrackColor.ToHex(),
-                Name = TrackName
+                SignalKind = TrackSignalKind,
+                SignalData = _signalDataFactory.CreateSignalData()
             });
         }
         else
         {
+            _store.Dispatch(new UpdateSignalTrackAction
+            {
+                Id = _signalTrack.Id,
+                Name = TrackName,
+                Color = TrackColor.ToHex(),
+                SignalKind = TrackSignalKind,
+                SignalData = _signalDataFactory.CreateSignalData()
+            });
         }
 
         return _navigation.GoToAsync("../");
     }
 
-    private void UpdateTrackSignalEditor()
+    private void UpdateSignalTrackEditor()
     {
-        TrackEditor = TrackSignalKind switch
+        TrackEditor = _signalDataFactory = TrackSignalKind switch
         {
-            SignalKind.Meander => new EditMeanderSignalViewModel(_store),
+            SignalKind.Meander => new EditMeanderSignalViewModel(_store, _signalTrack?.SignalData),
             _ => throw new NotImplementedException()
         };
+    }
+
+    internal interface ISignalDataFactory
+    {
+        ISignalData CreateSignalData();
     }
 }

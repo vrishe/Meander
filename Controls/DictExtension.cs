@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 
-namespace Meander;
+namespace Meander.Controls;
 
 internal sealed class DictExtension : DictExtensionBase
 {

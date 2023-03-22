@@ -1,29 +1,28 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:local="clr-namespace:Meander"
-             xmlns:local_signals="clr-namespace:Meander.Signals"
-             xmlns:maui="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:res="clr-namespace:Meander.Resources"
-             xmlns:sc="clr-namespace:System.Collections;assembly=netstandard"
-             xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Collections"
+             xmlns:m="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:sc="clr-namespace:System.Collections;assembly=netstandard"
+             xmlns:app="clr-namespace:Meander"
+             xmlns:app_controls="clr-namespace:Meander.Controls"
+             xmlns:app_resources="clr-namespace:Meander.Resources"
+             xmlns:app_signals="clr-namespace:Meander.Signals"
              x:Class="Meander.EditSignalTrackPage"
-             x:DataType="local:EditSignalTrackViewModel"
-             Title="{x:Static res:App.EditSignalTrack}"
+             x:DataType="app:EditSignalTrackViewModel"
+             Title="{x:Static app_resources:Strings.EditSignalTrack}"
              Padding="16">
     <ContentPage.Resources>
-        <x:String x:Key="DefaultTrackName">NewSignalTrack</x:String>
-        <maui:Color x:Key="DefaultTrackColor">#FF00FF</maui:Color>
-        <local:PickerDataSource x:Key="SignalKindsDict">
-            <sc:DictionaryEntry Key="{x:Static local_signals:SignalKind.Meander}" Value="{x:Static res:App.Meander}"/>
-        </local:PickerDataSource>
-        <local:EditSignalTrackTemplateSelector x:Key="TrackEditorTS" />
+        <app_controls:LocalizedString x:Key="DefaultTrackName">NewSignalTrack</app_controls:LocalizedString>
+        <app:PickerDataSource x:Key="SignalKindsDict">
+            <sc:DictionaryEntry Key="{x:Static app_signals:SignalKind.Meander}" Value="{x:Static app_resources:Strings.Meander}"/>
+        </app:PickerDataSource>
+        <app:EditSignalTrackTemplateSelector x:Key="TrackEditorTS" />
     </ContentPage.Resources>
     <ContentPage.Triggers>
         <DataTrigger TargetType="ContentPage"
                      Binding="{Binding NewTrack}"
                      Value="True">
-            <Setter Property="Title" Value="{x:Static res:App.NewSignalTrack}"/>
+            <Setter Property="Title" Value="{x:Static app_resources:Strings.NewSignalTrack}"/>
         </DataTrigger>
     </ContentPage.Triggers>
     <ScrollView
@@ -44,7 +43,7 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-            <Label Text="{x:Static res:App.TrackName}"
+            <Label Text="{x:Static app_resources:Strings.TrackName}"
                    VerticalOptions="Center"/>
             <Entry x:Name="TrackNameEntry"
                    Grid.Column="1"
@@ -52,18 +51,18 @@
                    MinimumWidthRequest="144"
                    Text="{Binding TrackName}"/>
             <Label Grid.Row="1"
-                   Text="{x:Static res:App.TrackColor}"
+                   Text="{x:Static app_resources:Strings.TrackColor}"
                    VerticalOptions="Center"/>
             <BoxView Grid.Row="1"
                      Grid.Column="1"
                      Color="{Binding TrackColor, Mode=TwoWay}">
                 <BoxView.GestureRecognizers>
-                    <maui:TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
+                    <m:TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
                 </BoxView.GestureRecognizers>
             </BoxView>
 
             <Label Grid.Row="2"
-                   Text="{x:Static res:App.SignalKind}"
+                   Text="{x:Static app_resources:Strings.SignalKind}"
                    VerticalOptions="Center"/>
             <Picker Grid.Row="2"
                     Grid.Column="1"
@@ -71,10 +70,10 @@
                     HorizontalOptions="StartAndExpand"
                     SelectedItem="{Binding TrackSignalKind}"
                     IsEnabled="{Binding NewTrack}"
-                    ItemsSource="{local:StaticResourceBinding SignalKindsDict, Binding={Binding Items}}"
+                    ItemsSource="{app_controls:StaticResourceBinding SignalKindsDict, Binding={Binding Items}}"
                     ItemDisplayBinding="{Binding Path=.,
                         Converter={
-                            local:MappingConverter Mapping={local:StaticResourceBinding SignalKindsDict, Binding={Binding DisplayMapping}},
+                            app_controls:MappingConverter Mapping={app_controls:StaticResourceBinding SignalKindsDict, Binding={Binding DisplayMapping}},
                             FallbackValue='missing mapping entry'}
                         }"/>
 
@@ -82,13 +81,13 @@
                     Grid.Row="3"
                     Stroke="{StaticResource Gray200}"
                     StrokeThickness="1">
-                <local:DataTemplateView DataSource="{Binding TrackEditor}"
-                                        DataTemplate="{StaticResource TrackEditorTS}" />
+                <app:DataTemplateView DataSource="{Binding TrackEditor}"
+                                      DataTemplate="{StaticResource TrackEditorTS}" />
             </Border>
         
             <Button Grid.ColumnSpan="99"
                     Grid.Row="4"
-                    Text="{x:Static res:App.Submit}"
+                    Text="{x:Static app_resources:Strings.Submit}"
                     Command="{Binding DoSubmitCommand}"/>
 
         </Grid>

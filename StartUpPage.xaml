@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:local="clr-namespace:Meander"
-             xmlns:res="clr-namespace:Meander.Resources"
+             xmlns:app="clr-namespace:Meander"
+             xmlns:app_resources="clr-namespace:Meander.Resources"
              x:Class="Meander.StartUpPage"
-             x:DataType="local:StartUpViewModel"
-             Title="{x:Static res:App.AppTitle}"
+             x:DataType="app:StartUpViewModel"
+             Title="{x:Static app_resources:Strings.AppTitle}"
              Padding="16">
     <VerticalStackLayout Spacing="16">
-        <Button Text="{x:Static res:App.New}"
+        <Button Text="{x:Static app_resources:Strings.New}"
                 Command="{Binding DoNewCommand}"/>
-        <Button Text="{x:Static res:App.Open}"
+        <Button Text="{x:Static app_resources:Strings.Open}"
                 IsEnabled="False"/>
     </VerticalStackLayout>
 </ContentPage>

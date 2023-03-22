@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Globalization;
 
-namespace Meander;
+namespace Meander.Controls;
 
 internal sealed class MappingConverter : IValueConverter
 {

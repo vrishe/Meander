@@ -3,26 +3,26 @@
     x:Class="Meander.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:c="clr-namespace:System.Collections.Generic;assembly=netstandard"
-    xmlns:local="clr-namespace:Meander"
-    xmlns:res="clr-namespace:Meander.Resources"
+    xmlns:sc="clr-namespace:System.Collections.Generic;assembly=netstandard"
+    xmlns:app="clr-namespace:Meander"
+    xmlns:app_resources="clr-namespace:Meander.Resources"
     Shell.FlyoutBehavior="Disabled">
 
-    <local:AttachedProperties.RegisteredRoutes>
-        <c:List x:TypeArguments="local:RegisteredRoute">
-            <local:RegisteredRoute Route="{x:Static local:Routes.ProjectSetupRoute}" PageType="{x:Type local:ProjectSetupPage}" />
-            <local:RegisteredRoute Route="{x:Static local:Routes.EditSignalTrackRoute}" PageType="{x:Type local:EditSignalTrackPage}" />
-        </c:List>
-    </local:AttachedProperties.RegisteredRoutes>
+    <app:AttachedProperties.RegisteredRoutes>
+        <sc:List x:TypeArguments="app:RegisteredRoute">
+            <app:RegisteredRoute Route="{x:Static app:Routes.ProjectSetupRoute}" PageType="{x:Type app:ProjectSetupPage}" />
+            <app:RegisteredRoute Route="{x:Static app:Routes.EditSignalTrackRoute}" PageType="{x:Type app:EditSignalTrackPage}" />
+        </sc:List>
+    </app:AttachedProperties.RegisteredRoutes>
     
     <ShellContent
-        Title="{x:Static res:App.AppTitle}"
-        ContentTemplate="{DataTemplate local:StartUpPage}"
-        Route="{x:Static local:Routes.StartupPageRoute}" />
+        Title="{x:Static app_resources:Strings.AppTitle}"
+        ContentTemplate="{DataTemplate app:StartUpPage}"
+        Route="{x:Static app:Routes.StartupPageRoute}" />
 
     <ShellContent
-        Title="{x:Static res:App.AppTitle}"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="{x:Static local:Routes.MainPageRoute}" />
+        Title="{x:Static app_resources:Strings.AppTitle}"
+        ContentTemplate="{DataTemplate app:MainPage}"
+        Route="{x:Static app:Routes.MainPageRoute}" />
 
 </Shell>

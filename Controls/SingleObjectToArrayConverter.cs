@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 
-namespace Meander;
+namespace Meander.Controls;
 
 internal class SingleObjectToArray : IValueConverter
 {

@@ -1,4 +1,4 @@
-﻿namespace Meander;
+﻿namespace Meander.Controls;
 
 [ContentProperty(nameof(Key))]
 internal sealed class StaticResourceBindingExtension : IMarkupExtension

@@ -1,10 +1,12 @@
 ﻿using System.Globalization;
 
-namespace Meander;
+namespace Meander.Controls;
 
 internal abstract class NumberInputBehaviourBase<T> : Behavior<InputView>
 {
+#pragma warning disable RCS1158 // Static member in generic type should use a type parameter.
     public static readonly BindableProperty ValueProperty =
+#pragma warning restore RCS1158 // Static member in generic type should use a type parameter.
         BindableProperty.Create(nameof(Value), typeof(T), typeof(FloatNumberInputBehaviour), default(T), BindingMode.TwoWay,
             propertyChanged: OnValueChanged);
 
