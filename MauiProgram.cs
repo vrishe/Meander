@@ -1,4 +1,6 @@
 ﻿using CommunityToolkit.Maui;
+using Meander.Signals;
+using Meander.State;
 using Microsoft.Extensions.Logging;
 using SkiaSharp.Views.Maui.Controls.Hosting;
 
@@ -25,10 +27,16 @@ public static class MauiProgram
 
 		builder.Services.AddLocalization();
 
-		builder.Services.AddSingleton<IShellNavigation, CurrentShellNavigation>();
 		builder.Services.AddSingleton(StoreSetup.NewStore());
+		builder.Services.AddSingleton<IShellNavigation, CurrentShellNavigation>();
+		builder.Services.AddSingleton<ISignalsEvaluator>(serviceProvider
+			=> new SignalsEvaluator(serviceProvider.GetRequiredService<ILoggerProvider>())
+			{
+				Adapter = serviceProvider.GetRequiredService<GlobalStateSignalsAdapter>()
+			});
 
-		builder.Services.AddTransient<EditSignalTrackPage>();
+		builder.Services.AddTransient<GlobalStateSignalsAdapter>();
+        builder.Services.AddTransient<EditSignalTrackPage>();
 		builder.Services.AddTransient<EditSignalTrackViewModel>();
 		builder.Services.AddTransient<MainPage>();
 		builder.Services.AddTransient<MainViewModel>();

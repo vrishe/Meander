@@ -43,23 +43,23 @@
                            Text="{Binding Name}"
                            VerticalOptions="Center"/>
                 </Grid>
-                <BoxView Color="Transparent">
+                <Rectangle Grid.Column="1"
+                           BackgroundColor="{StaticResource Gray200}"/>
+                <app_controls:SignalGraphView Grid.Column="2"
+                                              GraphColor="{Binding Color, Converter={StaticResource ColorCVT}}"
+                                              GraphThickness="2"
+                                              SignalId="{Binding Id}"/>
+                <Rectangle Grid.ColumnSpan="99"
+                           Grid.Row="1"
+                           BackgroundColor="{StaticResource Gray200}"/>
+                <BoxView Grid.ColumnSpan="99"
+                         Color="Transparent">
                     <BoxView.GestureRecognizers>
                         <TapGestureRecognizer CommandParameter="{Binding Id}"
                                               Command="{Binding DoEditSignalTrackCommand,
                             Source={x:RelativeSource AncestorType={x:Type app:MainViewModel}}}"/>
                     </BoxView.GestureRecognizers>
                 </BoxView>
-                <Rectangle Grid.Column="1"
-                           BackgroundColor="{StaticResource Gray200}"/>
-                <Label Grid.Column="2"
-                       Text="Graph will be here soon"
-                       BackgroundColor="#2C2C2C"
-                       HorizontalTextAlignment="Center"
-                       VerticalTextAlignment="Center"/>
-                <Rectangle Grid.ColumnSpan="99"
-                           Grid.Row="1"
-                           BackgroundColor="{StaticResource Gray200}"/>
             </Grid>
         </DataTemplate>
 
@@ -84,16 +84,17 @@
                     <Label Text="{x:Static app_resources:Strings.AddSignalTrack}"
                            HorizontalOptions="Center"/>
                 </VerticalStackLayout>
-                <BoxView Color="Transparent">
-                    <BoxView.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding DoAddNewSignalTrackCommand}"/>
-                    </BoxView.GestureRecognizers>
-                </BoxView>
                 <Rectangle Grid.Column="1"
                            BackgroundColor="{StaticResource Gray200}"/>
                 <Rectangle Grid.ColumnSpan="99"
                            Grid.Row="1"
                            BackgroundColor="{StaticResource Gray200}"/>
+                <BoxView Grid.ColumnSpan="99"
+                         Color="Transparent">
+                    <BoxView.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding DoAddNewSignalTrackCommand}"/>
+                    </BoxView.GestureRecognizers>
+                </BoxView>
             </Grid>
         </DataTemplate>
 

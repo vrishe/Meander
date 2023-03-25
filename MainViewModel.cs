@@ -2,8 +2,11 @@
 using System.Reactive.Linq;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Meander.Signals;
 using Meander.State;
+using Meander.State.Actions;
 using ReduxSimple;
+using static Meander.EditSignalTrackViewModel;
 
 namespace Meander;
 
@@ -16,7 +19,7 @@ public sealed partial class MainViewModel : ObservableObject, IEnableable
     [ObservableProperty]
     private string _projectName;
 
-    public MainViewModel(IShellNavigation navigation, ReduxStore<GlobalState> store)
+    public MainViewModel(IShellNavigation navigation, ISignalsEvaluator signalsEvaluator, ReduxStore<GlobalState> store)
     {
         _navigation = navigation;
         _store = store;
@@ -58,7 +61,20 @@ public sealed partial class MainViewModel : ObservableObject, IEnableable
     [RelayCommand]
     private Task DoAddNewSignalTrack()
     {
-        return _navigation.GoToAsync(Routes.EditSignalTrackUrl);
+        var rng = new Random();
+        _store.Dispatch(new AddNewSignalTrackAction
+        {
+            Name = "テストのツレック",
+            Color = Colors.Teal.ToHex(),
+            SignalKind = SignalKind.Meander,
+            SignalData = new MeanderSignalData(Enumerable
+        .Range(0, _store.State.SamplesCount)
+        .Select(_ => 2 * (rng.NextDouble() - .5)))
+        });
+
+        return Task.CompletedTask;
+
+        //return _navigation.GoToAsync(Routes.EditSignalTrackUrl);
     }
 
     [RelayCommand]

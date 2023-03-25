@@ -15,5 +15,5 @@ internal sealed class MeanderSignalData : ISignalData
 
     public double this[int i] => _values[i];
 
-    public double Evaluate(double t) => _values[(long)Math.Clamp(Math.Floor(t), 0, _values.Length)];
+    public double SampleAt(double t) => _values[(long)Math.Clamp(Math.Floor(t * _values.Length), 0, _values.Length)];
 }

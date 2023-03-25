@@ -4,5 +4,5 @@ public interface ISignalData
 {
     SignalKind Kind { get; }
 
-    double Evaluate(double t);
+    double SampleAt(double t);
 }
