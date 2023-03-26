@@ -43,20 +43,15 @@ internal sealed class SignalGraphView : SKCanvasView
 
     private SKPaint _graphSignalPaint;
 
-    private SKPaint GraphSignalPaint
+    private SKPaint GraphSignalPaint => _graphSignalPaint ??= new SKPaint
     {
-        get
-        {
-            return _graphSignalPaint ??= new SKPaint
-            {
-                ColorF = GraphColor.ToSKColorF(),
-                IsAntialias = true,
-                StrokeJoin = SKStrokeJoin.Round,
-                StrokeWidth = (float)GraphThickness,
-                Style = SKPaintStyle.Stroke,
-            };
-        }
-    }
+        ColorF = GraphColor.ToSKColorF(),
+        IsAntialias = true,
+        StrokeJoin = SKStrokeJoin.Round,
+        StrokeCap = SKStrokeCap.Round,
+        StrokeWidth = (float)GraphThickness,
+        Style = SKPaintStyle.Stroke,
+    };
 
     protected override void OnParentSet()
     {
@@ -97,12 +92,12 @@ internal sealed class SignalGraphView : SKCanvasView
         var (info, surface) = (e.Info, e.Surface);
         var canvas = surface.Canvas;
 
-        var points = new SKPoint[2 * info.Width];
+        var points = new SKPoint[info.Width];
         for (var i = 0; i < points.Length; ++i)
         {
             ref var p = ref points[i];
             p.X = i;
-            p.Y = info.Height * (float)_interpolator.Interpolate(i / (double)points.Length);
+            p.Y = (float)(info.Height * _interpolator.Interpolate(i / (double)points.Length));
         }
 
         canvas.DrawPoints(SKPointMode.Polygon, points, GraphSignalPaint);
@@ -135,21 +130,4 @@ internal sealed class SignalGraphView : SKCanvasView
 
         InvalidateSurface();
     }
-
-    //private struct RenderingScope : IDisposable
-    //{
-    //    private SignalGraphView _view;
-
-    //    public RenderingScope(SignalGraphView view)
-    //    {
-    //        _view = view;
-    //        _view._rendering = true;
-    //    }
-
-    //    public void Dispose()
-    //    {
-    //        var v = Interlocked.Exchange(ref _view, null);
-    //        if (v != null) v._rendering = false;
-    //    }
-    //}
 }
