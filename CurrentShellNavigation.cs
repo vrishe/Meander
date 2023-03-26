@@ -41,7 +41,7 @@ internal sealed class CurrentShellNavigation : IShellNavigation
 
     private Task MissingShellTask(string location)
     {
-        _logger.LogWarning($"Cannot go to {location}. There is no current {nameof(Shell)} available.");
+        _logger.LogWarning("Cannot go to {}. There is no current {} available.", location, nameof(Shell));
         var tcs = new TaskCompletionSource<object>();
         tcs.SetCanceled();
         return tcs.Task;

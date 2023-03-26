@@ -6,8 +6,8 @@ internal class DataTemplateView : Frame
 
     public static readonly BindableProperty DataSourceProperty =
         BindableProperty.Create(nameof(DataSource), typeof(object), typeof(DataTemplateView),
-            propertyChanged: OnDataSourceChanged,
-            defaultBindingMode: BindingMode.OneWay);
+            defaultBindingMode: BindingMode.OneWay,
+            propertyChanged: OnDataSourceChanged);
 
     public object DataSource
     {
@@ -17,8 +17,8 @@ internal class DataTemplateView : Frame
 
     public static readonly BindableProperty DataTemplateSelectorProperty =
         BindableProperty.Create(nameof(DataTemplate), typeof(DataTemplateSelector), typeof(DataTemplateView),
-            propertyChanged: OnDataTemplateSelectorChanged,
-            defaultBindingMode: BindingMode.OneWay);
+            defaultBindingMode: BindingMode.OneWay,
+            propertyChanged: OnDataTemplateSelectorChanged);
 
     public DataTemplate DataTemplate
     {
@@ -84,8 +84,8 @@ internal class DataTemplateView : Frame
             return;
         }
 
-        var newContent = dataTemplate.CreateContent() as View;
-        if (newContent == null) throw new Exception($"{nameof(DataTemplate)} has generated a 'null' content.");
+        if (dataTemplate.CreateContent() is not View newContent)
+            throw new Exception($"{nameof(DataTemplate)} has generated invalid content.");
 
         newContent.BindingContext = DataSource;
         SetContent(newContent, dataSource);

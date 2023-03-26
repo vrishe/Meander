@@ -6,7 +6,6 @@ using Meander.Signals;
 using Meander.State;
 using Meander.State.Actions;
 using ReduxSimple;
-using static Meander.EditSignalTrackViewModel;
 
 namespace Meander;
 
@@ -19,7 +18,7 @@ public sealed partial class MainViewModel : ObservableObject, IEnableable
     [ObservableProperty]
     private string _projectName;
 
-    public MainViewModel(IShellNavigation navigation, ISignalsEvaluator signalsEvaluator, ReduxStore<GlobalState> store)
+    public MainViewModel(IShellNavigation navigation, ReduxStore<GlobalState> store)
     {
         _navigation = navigation;
         _store = store;

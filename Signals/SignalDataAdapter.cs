@@ -4,6 +4,8 @@ internal abstract class SignalDataAdapter
 {
     public event Action OnDataChanged;
 
+    public abstract int SamplesCount { get; }
+
     public abstract int SignalsCount { get; }
 
     public abstract IEnumerable<Signal> EnumerateAllSignals();

@@ -59,9 +59,7 @@ public sealed partial class EditSignalTrackViewModel : ObservableObject, IQueryA
             var similarNamedTracksCount = _store.State.Tracks.Count(t => t.Name.Equals(trackName, StringComparison.CurrentCultureIgnoreCase));
             TrackName = similarNamedTracksCount > 0 ? $"{trackName} ({similarNamedTracksCount})" : trackName;
             TrackColor = RandomizeColor(new Random(GetHashCode() ^ Environment.TickCount).NextSingle(), .64f, .7f);
-#pragma warning disable MVVMTK0034 // Direct field reference to [ObservableProperty] backing field
-            _trackSignalKind = default;
-#pragma warning restore MVVMTK0034 // Direct field reference to [ObservableProperty] backing field
+            TrackSignalKind = default;
             NewTrack = true;
         }
         else
@@ -69,9 +67,7 @@ public sealed partial class EditSignalTrackViewModel : ObservableObject, IQueryA
             _signalTrack = _store.State.Tracks.FirstOrDefault(t => trackId.Equals(t.Id));
             TrackName = _signalTrack.Name;
             TrackColor = Color.FromArgb(_signalTrack.Color);
-#pragma warning disable MVVMTK0034 // Direct field reference to [ObservableProperty] backing field
-            _trackSignalKind = _signalTrack.SignalKind;
-#pragma warning restore MVVMTK0034 // Direct field reference to [ObservableProperty] backing field
+            TrackSignalKind = _signalTrack.SignalKind;
             NewTrack = false;
         }
 

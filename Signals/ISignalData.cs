@@ -4,5 +4,7 @@ public interface ISignalData
 {
     SignalKind Kind { get; }
 
-    double SampleAt(double t);
+    IReadOnlyCollection<Guid> Dependencies { get; }
+
+    double SampleAt(int i, IEnumerable<ArrayView<double>> views);
 }

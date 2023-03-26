@@ -42,6 +42,8 @@ internal sealed class SignalGraphView : SKCanvasView
     private IDisposable _requestHandle;
 
     private SKPaint _graphSignalPaint;
+    private SKPoint[] _graphPoints = Array.Empty<SKPoint>();
+    private bool _graphPointsFilled;
 
     private SKPaint GraphSignalPaint => _graphSignalPaint ??= new SKPaint
     {
@@ -92,15 +94,24 @@ internal sealed class SignalGraphView : SKCanvasView
         var (info, surface) = (e.Info, e.Surface);
         var canvas = surface.Canvas;
 
-        var points = new SKPoint[info.Width];
-        for (var i = 0; i < points.Length; ++i)
+        if (_graphPoints.Length != info.Width)
         {
-            ref var p = ref points[i];
-            p.X = i;
-            p.Y = (float)(info.Height * _interpolator.Interpolate(i / (double)points.Length));
+            _graphPointsFilled = false;
+            Array.Resize(ref _graphPoints, info.Width);
         }
 
-        canvas.DrawPoints(SKPointMode.Polygon, points, GraphSignalPaint);
+        if (!_graphPointsFilled)
+        {
+            _graphPointsFilled = true;
+            for (int i = 0, imax = _graphPoints.Length; i < imax; ++i)
+            {
+                ref var p = ref _graphPoints[i];
+                p.X = i;
+                p.Y = (float)(.5 * info.Height * (1 - _interpolator.Interpolate(i / (double)imax)));
+            }
+        }
+
+        canvas.DrawPoints(SKPointMode.Polygon, _graphPoints, GraphSignalPaint);
     }
 
     private void RequestSignalUpdate(Guid? signalId)
@@ -115,11 +126,11 @@ internal sealed class SignalGraphView : SKCanvasView
         _requestHandle = _evaluator.SubscribeSignalInterpolatorUpdates(signalId.Value,
             interpolator => {
                 _interpolator = interpolator;
+                _graphPointsFilled = false;
 
                 InvalidateSurface();
             });
     }
-
 
     private void UpdateGraphPaint()
     {

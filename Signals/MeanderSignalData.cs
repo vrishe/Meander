@@ -9,11 +9,13 @@ internal sealed class MeanderSignalData : ISignalData
         _values = values.ToArray();
     }
 
+    public IReadOnlyCollection<Guid> Dependencies => Array.Empty<Guid>();
+
     public SignalKind Kind => SignalKind.Meander;
 
     public int SamplesCount => _values.Length;
 
     public double this[int i] => _values[i];
 
-    public double SampleAt(double t) => _values[(long)Math.Clamp(Math.Floor(t * _values.Length), 0, _values.Length)];
+    public double SampleAt(int i, IEnumerable<ArrayView<double>> lookup) => _values[i < 0 ? 0 : i >= _values.Length ? _values.Length - 1 : i];
 }

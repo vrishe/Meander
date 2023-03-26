@@ -3,6 +3,7 @@
 public enum SignalKind
 {
     Meander,
+    Difference,
 
     // etc.
     //Sawtooth,
