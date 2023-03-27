@@ -2,9 +2,8 @@
 
 public interface ISignalData
 {
-    SignalKind Kind { get; }
-
     IReadOnlyCollection<Guid> Dependencies { get; }
-
-    double SampleAt(int i, IEnumerable<ArrayView<double>> views);
+    bool IsSampled { get; }
+    SignalKind Kind { get; }
+    double SampleAt(int i);
 }

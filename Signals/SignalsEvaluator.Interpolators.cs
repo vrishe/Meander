@@ -2,33 +2,26 @@
 
 internal partial class SignalsEvaluator
 {
-    private ISignalInterpolator CreateInterpolator(in DispatchInfo info)
+    private static DifferenceSignalInterpolator CreateDifferenceSignalInterpolator(SignalSamplingState state, IReadOnlyDictionary<Guid, DispatchInfo> dispatchInfo)
     {
-        var (stats, values, valuesStride) = _swapChain.Front;
-        return new SignalInterpolator
+        var data = state.Data as DifferenceSignalData;
+        return new()
         {
-            Stats = stats[info.Offsets.StatsOffset],
-            View = new ArrayView<double>(values, info.Offsets.ValuesOffset, valuesStride)
+            Minuend = dispatchInfo[data!.MinuendSignalId].Interpolator,
+            Subtrahend = dispatchInfo[data!.MinuendSignalId].Interpolator,
         };
     }
 
-    private class SignalInterpolator : ISignalInterpolator
+    private static MeanderSignalInterpolator CreateMeanderSignalInterpolator(SignalSamplingState state, in SwapchainSlot front)
+        => new() { View = new ArrayView<double>(front.Values, state.Offsets.ValuesOffset, front.ValuesStride) };
+
+    private ISignalInterpolator CreateInterpolator(in SwapchainSlot front, SignalSamplingState state, IReadOnlyDictionary<Guid, DispatchInfo> dispatchInfo)
     {
-        public SignalStats Stats { get; init; }
-
-        public ArrayView<double> View { get; init; }
-
-        public double Interpolate(double t)
+        return state.Data.Kind switch
         {
-            var values = View.Values;
-            if (t <= 0) return values[Index.Start];
-            if (t >= 1) return values[Index.End];
-
-            t *= (values.Length - 1);
-
-            var tMin = Math.Floor(t);
-            var a = values[(int)tMin];
-            return a + (values[(int)Math.Ceiling(t)] - a) * (t - tMin);
-        }
+            SignalKind.Difference => CreateDifferenceSignalInterpolator(state, dispatchInfo),
+            SignalKind.Meander => CreateMeanderSignalInterpolator(state, front),
+            _ => throw new NotSupportedException($"{state.Data.Kind} interpolation is not supported.")
+        };
     }
 }

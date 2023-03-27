@@ -8,7 +8,7 @@ internal sealed partial class SignalsEvaluator : ISignalsEvaluator
     private readonly ILogger _logger;
 
     private SignalDataAdapter _adapter;
-    private Dictionary<Guid, DispatchInfo> _dispatchInfo;
+    private IDictionary<Guid, DispatchInfo> _dispatchInfo;
     private Dictionary<Guid, Subscription<ISignalInterpolator>> _subscriptions;
 
     public SignalsEvaluator(ILoggerProvider logger)
@@ -26,11 +26,12 @@ internal sealed partial class SignalsEvaluator : ISignalsEvaluator
     {
         if (callback is null)throw new ArgumentNullException(nameof(callback));
 
-        _subscriptions ??= new();
-        _subscriptions.TryGetValue(id, out var s);
-        _subscriptions[id] = s = s with { Callback = callback };
+        var subscription = new Subscription<ISignalInterpolator>(callback);
 
-        SafeDispatch(id, s);
+        _subscriptions ??= new();
+        _subscriptions[id] = subscription;
+
+        SafeDispatch(id, subscription);
 
         return Disposable.Create(() => _subscriptions.Remove(id));
     }
@@ -53,20 +54,15 @@ internal sealed partial class SignalsEvaluator : ISignalsEvaluator
 
         try
         {
-            var results = await SampleDataAsync(
+            _dispatchInfo = await SampleDataAsync(
                 _adapter.SamplesCount,
                 _adapter.EnumerateAllSignals(),
                 _cancellation.Token);
 
-            if (!_cancellation.IsCancellationRequested)
+            if (_subscriptions != null)
             {
-                _dispatchInfo = results.ToDictionary(kvp => kvp.Key, kvp => kvp.Value.ToDispatchInfo());
-
-                if (_subscriptions != null)
-                {
-                    foreach (var id in _subscriptions.Keys.ToArray())
-                        SafeDispatch(id, _subscriptions[id]);
-                }
+                foreach (var (id, s) in _subscriptions)
+                    SafeDispatch(id, s);
             }
         }
         catch (OperationCanceledException)
@@ -81,26 +77,11 @@ internal sealed partial class SignalsEvaluator : ISignalsEvaluator
 
     private void SafeDispatch(in Guid id, in Subscription<ISignalInterpolator> s)
     {
-        var arg = s.Arg;
-        var version = _dispatchInfo?.GetHashCode() ?? 0;
-        if (arg.Version != version)
-        {
-            arg = new Versioned<ISignalInterpolator>
-            {
-                Version = version,
-                Value = _dispatchInfo?.TryGetValue(id, out var ofs) == true
-                    ? CreateInterpolator(ofs)
-                    : null,
-            };
-
-            _subscriptions[id] = s with { Arg = arg };
-        }
-
-        if (arg.Value is null) return;
+        if (_dispatchInfo?.TryGetValue(id, out var info) != true) return;
 
         try
         {
-            s.Callback(arg.Value);
+            s.Callback(info.Interpolator);
         }
         catch (Exception e)
         {
@@ -130,13 +111,11 @@ internal sealed partial class SignalsEvaluator : ISignalsEvaluator
         AbortRecentDataChangeUpdate();
     }
 
-    private readonly record struct DispatchInfo(SignalKind SignalKind, Offsets Offsets);
+    private readonly record struct DispatchInfo(ISignalInterpolator Interpolator);
 
-    private readonly record struct Offsets(int StatsOffset, int ValuesOffset);
+    private readonly record struct Offsets(int ValuesOffset);
 
-    private readonly record struct Subscription<T>(Versioned<T> Arg, Action<T> Callback);
-
-    private readonly record struct Versioned<T>(T Value, int Version);
+    private readonly record struct Subscription<T>(Action<T> Callback);
 
 
 }
