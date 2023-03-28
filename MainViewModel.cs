@@ -2,7 +2,6 @@
 using System.Reactive.Linq;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Meander.Signals;
 using Meander.State;
 using Meander.State.Actions;
 using ReduxSimple;
@@ -58,30 +57,20 @@ public sealed partial class MainViewModel : ObservableObject, IEnableable
     }
 
     [RelayCommand]
-    private Task DoAddNewSignalTrack()
+    private Task DoAddNewSignalTrack() =>
+        _navigation.GoToAsync(Routes.EditSignalTrackUrl);
+
+    [RelayCommand]
+    private void DoDeleteSignalTrack(SignalTrack track)
     {
-        //var rng = new Random();
-        //_store.Dispatch(new AddNewSignalTrackAction
-        //{
-        //    Name = "テストのツレック",
-        //    Color = Colors.Teal.ToHex(),
-        //    SignalKind = SignalKind.Meander,
-        //    SignalData = new MeanderSignalData(Enumerable
-        //.Range(0, _store.State.SamplesCount)
-        //.Select(_ => 2 * (rng.NextDouble() - .5)))
-        //});
-
-        //return Task.CompletedTask;
-
-        return _navigation.GoToAsync(Routes.EditSignalTrackUrl);
+        if (track == null) return;
+        _store.Dispatch(new DeleteSignalTrackAction { TrackId = track.Id });
     }
 
     [RelayCommand]
-    private Task DoEditSignalTrack(Guid trackId)
-    {
-        return _navigation.GoToAsync(Routes.EditSignalTrackUrl,
+    private Task DoEditSignalTrack(Guid trackId) =>
+        _navigation.GoToAsync(Routes.EditSignalTrackUrl,
             new Dictionary<string, object> {
                 [Routes.EditSignalTrackQueryParams.TrackId] = trackId
             });
-    }
 }

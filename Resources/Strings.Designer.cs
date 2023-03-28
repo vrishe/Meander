@@ -79,6 +79,15 @@ namespace Meander.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Delete Track.
+        /// </summary>
+        public static string DeleteTrack {
+            get {
+                return ResourceManager.GetString("DeleteTrack", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Differential.
         /// </summary>
         public static string Differential {

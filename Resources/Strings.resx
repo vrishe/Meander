@@ -123,6 +123,9 @@
   <data name="AppTitle" xml:space="preserve">
     <value>Meander</value>
   </data>
+  <data name="DeleteTrack" xml:space="preserve">
+    <value>Delete Track</value>
+  </data>
   <data name="Differential" xml:space="preserve">
     <value>Differential</value>
   </data>

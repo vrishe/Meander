@@ -27,6 +27,12 @@ internal static class ReducersImpl
                 .ToList()
             });
 
+        yield return On<DeleteSignalTrackAction, GlobalState>(
+            (state, action) => state with
+            {
+                Tracks = state.Tracks.Where(t => t.Id != action.TrackId).ToList()
+            });
+
         yield return On<UpdateSignalTrackAction, GlobalState>(
             (state, action) => state with
             {

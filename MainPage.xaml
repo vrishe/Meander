@@ -8,6 +8,7 @@
              xmlns:app_state="clr-namespace:Meander.State"
              x:Class="Meander.MainPage"
              x:DataType="app:MainViewModel"
+             x:Name="Root"
              Title="{Binding ProjectName}">
 
     <ContentPage.Resources>
@@ -45,6 +46,13 @@
                                FontSize="10"/>
                     </VerticalStackLayout>
                 </Grid>
+                <FlyoutBase.ContextFlyout>
+                    <MenuFlyout>
+                        <MenuFlyoutItem Text="{x:Static app_resources:Strings.DeleteTrack}"
+                                        Command="{Binding BindingContext.DoDeleteSignalTrackCommand, Source={x:Reference Root}}"
+                                        CommandParameter="{Binding .}"/>
+                    </MenuFlyout>
+                </FlyoutBase.ContextFlyout>
                 <Rectangle Grid.Column="1"
                            BackgroundColor="{StaticResource Gray200}"/>
                 <app_controls:SignalGraphView Grid.Column="2"
