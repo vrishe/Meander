@@ -1,5 +1,4 @@
 using System.Collections;
-using Microsoft.Extensions.Logging;
 
 namespace Meander;
 
@@ -32,29 +31,37 @@ public partial class EditMeanderSignalView : ContentView
             StepsGrid.Remove(item);
         while (StepsGrid.RowDefinitions.Count > itemsSource.Count)
             StepsGrid.RowDefinitions.RemoveAt(StepsGrid.RowDefinitions.Count - 1);
+        var from = itemsSource.GetEnumerator();
+        var to = StepsGrid.GetEnumerator();
+        while (to.MoveNext())
+        {
+            from.MoveNext();
+            (to.Current as BindableObject)!.BindingContext = from.Current;
+            to.MoveNext();
+            (to.Current as BindableObject)!.BindingContext = from.Current;
+        }
         while (StepsGrid.RowDefinitions.Count < itemsSource.Count)
         {
             var row = StepsGrid.RowDefinitions.Count;
             StepsGrid.RowDefinitions.Add(new RowDefinition());
-            StepsGrid.Add(SetupGridView(FirstColumnTemplate.CreateContent(), row, 0));
-            StepsGrid.Add(SetupGridView(SecondColumnTemplate.CreateContent(), row, 1));
 
-            static IView SetupGridView(object viewBlank, int row, int column)
-            {
-                var result = (IView)viewBlank;
-                var bo = viewBlank as BindableObject;
-                Grid.SetColumn(bo, column);
-                Grid.SetRow(bo, row);
-                return result;
-            }
+            from.MoveNext();
+            var c0 = SetupGridView(FirstColumnTemplate.CreateContent(), row, 0);
+            var c1 = SetupGridView(SecondColumnTemplate.CreateContent(), row, 1);
+            (c0 as BindableObject)!.BindingContext = from.Current;
+            (c1 as BindableObject)!.BindingContext = from.Current;
+
+            StepsGrid.Add(c0);
+            StepsGrid.Add(c1);
         }
 
-        var from = itemsSource.GetEnumerator();
-        var to = StepsGrid.GetEnumerator();
-        while (from.MoveNext())
+        static IView SetupGridView(object viewBlank, int row, int column)
         {
-            to.MoveNext(); (to.Current as BindableObject)!.BindingContext = from.Current;
-            to.MoveNext(); (to.Current as BindableObject)!.BindingContext = from.Current;
+            var result = (IView)viewBlank;
+            var bo = viewBlank as BindableObject;
+            Grid.SetColumn(bo, column);
+            Grid.SetRow(bo, row);
+            return result;
         }
     }
 }

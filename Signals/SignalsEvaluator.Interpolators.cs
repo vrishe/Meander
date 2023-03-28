@@ -8,7 +8,7 @@ internal partial class SignalsEvaluator
         return new()
         {
             Minuend = dispatchInfo[data!.MinuendSignalId].Interpolator,
-            Subtrahend = dispatchInfo[data!.MinuendSignalId].Interpolator,
+            Subtrahend = dispatchInfo[data!.SubtrahendSignalId].Interpolator,
         };
     }
 

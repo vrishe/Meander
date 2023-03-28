@@ -8,7 +8,7 @@ internal static class MauiControlsExtensions
 {
     public static VisualElement WithEnableable(this VisualElement dst)
     {
-        bool CheckEnabled() => dst.IsEnabled;
+        bool CheckEnabled() => dst.IsEnabled && dst.Parent != null;
 
         var isEnabled = CheckEnabled();
         var enableable = dst.BindingContext as IEnableable;
@@ -23,6 +23,7 @@ internal static class MauiControlsExtensions
                     break;
 
                 case nameof(VisualElement.IsEnabled):
+                case nameof(VisualElement.Parent):
                     if (isEnabled != CheckEnabled())
                     {
                         if (isEnabled = !isEnabled) enableable?.OnEnabled();
@@ -42,7 +43,7 @@ internal static class MauiControlsExtensions
     public static VisualElement WithEnableable(this Page dst)
     {
         var hasAppeared = dst.Parent != null;
-        bool CheckEnabled() => hasAppeared && dst.IsEnabled;
+        bool CheckEnabled() => hasAppeared && dst.Parent != null && dst.IsEnabled;
 
         var isEnabled = CheckEnabled();
         var enableable = dst.BindingContext as IEnableable;
@@ -57,6 +58,7 @@ internal static class MauiControlsExtensions
                     break;
 
                 case nameof(VisualElement.IsEnabled):
+                case nameof(VisualElement.Parent):
                     if (isEnabled != CheckEnabled())
                     {
                         if (isEnabled = !isEnabled) enableable?.OnEnabled();

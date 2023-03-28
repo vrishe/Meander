@@ -4,7 +4,7 @@ namespace Meander.Controls;
 
 internal sealed class DictExtension : DictExtensionBase
 {
-    public Type KeyType { get; set; } = typeof(object);
+    public Type KeyType { get; set; } = typeof(string);
     public Type ValueType { get; set; } = typeof(object);
 
     public override object ProvideValue(IServiceProvider serviceProvider)

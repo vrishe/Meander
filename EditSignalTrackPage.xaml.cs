@@ -30,6 +30,7 @@ internal sealed class EditSignalTrackTemplateSelector : DataTemplateSelector
         => item switch
         {
             EditMeanderSignalViewModel => GetOrCreateTemplate(container, typeof(EditMeanderSignalView)),
+            EditDifferenceSignalViewModel => GetOrCreateTemplate(container, typeof(EditDifferenceSignalView)),
             _ => throw new NotImplementedException(),
         };
 

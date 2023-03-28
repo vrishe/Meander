@@ -123,8 +123,14 @@
   <data name="AppTitle" xml:space="preserve">
     <value>Meander</value>
   </data>
+  <data name="Differential" xml:space="preserve">
+    <value>Differential</value>
+  </data>
   <data name="EditSignalTrack" xml:space="preserve">
     <value>Edit Track</value>
+  </data>
+  <data name="First" xml:space="preserve">
+    <value>First</value>
   </data>
   <data name="Meander" xml:space="preserve">
     <value>Meander</value>
@@ -138,6 +144,9 @@
   <data name="NewSignalTrack" xml:space="preserve">
     <value>New Track</value>
   </data>
+  <data name="NoTrackSelected" xml:space="preserve">
+    <value>No Track Selected</value>
+  </data>
   <data name="OK" xml:space="preserve">
     <value>OK</value>
   </data>
@@ -149,6 +158,9 @@
   </data>
   <data name="SamplesCount" xml:space="preserve">
     <value>Samples Count</value>
+  </data>
+  <data name="Second" xml:space="preserve">
+    <value>Second</value>
   </data>
   <data name="SetupProject" xml:space="preserve">
     <value>Setup Project</value>

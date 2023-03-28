@@ -11,10 +11,6 @@ public sealed partial class EditMeanderSignalViewModel : ObservableObject, IEnab
 {
     private readonly MeanderSignalData _signalData;
     private readonly ReduxStore<GlobalState> _store;
-    private readonly IList<IDisposable> _subscriptions = new List<IDisposable>();
-
-    [ObservableProperty]
-    private string _testProp;
 
     [ObservableProperty]
     private ICollection<LevelInputData> _steps;
@@ -27,7 +23,6 @@ public sealed partial class EditMeanderSignalViewModel : ObservableObject, IEnab
 
     public void OnDisabled()
     {
-        _subscriptions.DisposeAll().Clear();
     }
 
     public void OnEnabled()
@@ -40,6 +35,8 @@ public sealed partial class EditMeanderSignalViewModel : ObservableObject, IEnab
             })
             .ToList();
     }
+
+    bool ISignalDataFactory.IsDataReady => true;
 
     ISignalData ISignalDataFactory.CreateSignalData()
     {

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:app="clr-namespace:Meander"
+             xmlns:app_controls="clr-namespace:Meander.Controls"
+             xmlns:app_resources="clr-namespace:Meander.Resources"
+             x:Class="Meander.EditDifferenceSignalView"
+             x:DataType="app:EditDifferenceSignalViewModel">
+    <ContentView.Resources>
+        <app_controls:FormattedStringConverter x:Key="FormattedStringCVT"/>
+    </ContentView.Resources>
+    <Grid ColumnSpacing="16"
+          RowSpacing="8">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="96" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Label Text="{x:Static app_resources:Strings.First}"
+               VerticalOptions="Center"/>
+        <Grid x:Name="FirstTrackSelect"
+              Grid.Column="1"
+              InputTransparent="False">
+            <Grid.GestureRecognizers>
+                <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped">
+                    <TapGestureRecognizer.CommandParameter>
+                        <DataTemplate>
+                            <app:TrackSelectorPopup 
+                                ItemsSource="{Binding Tracks}"
+                                SelectedItem="{Binding FirstTrack}"
+                                SelectionChangedCommand="{Binding DoSelectFirstTrackCommand}"/>
+                        </DataTemplate>
+                    </TapGestureRecognizer.CommandParameter>
+                </TapGestureRecognizer>
+            </Grid.GestureRecognizers>
+            <app:SignalTrackPreviewItem BindingContext="{Binding FirstTrack}"
+                                        IsVisible="{Binding BindingContext.HasFirstTrack,Source={x:Reference FirstTrackSelect}}"/>
+            <Label Text="{x:Static app_resources:Strings.NoTrackSelected}"
+                   VerticalOptions="Center">
+                <Label.Triggers>
+                    <DataTrigger TargetType="Label" Binding="{Binding HasFirstTrack}" Value="True">
+                        <Setter Property="IsVisible" Value="False" />
+                    </DataTrigger>
+                </Label.Triggers>
+            </Label>
+        </Grid>
+
+        <Label Grid.Row="1"
+               Text="{x:Static app_resources:Strings.Second}"
+               VerticalOptions="Center"/>
+        <Grid x:Name="SecondTrackSelect"
+              Grid.Row="1"
+              Grid.Column="1"
+              InputTransparent="False">
+            <Grid.GestureRecognizers>
+                <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped">
+                    <TapGestureRecognizer.CommandParameter>
+                        <DataTemplate>
+                            <app:TrackSelectorPopup 
+                                ItemsSource="{Binding Tracks}"
+                                SelectedItem="{Binding SecondTrack}"
+                                SelectionChangedCommand="{Binding DoSelectSecondTrackCommand}"/>
+                        </DataTemplate>
+                    </TapGestureRecognizer.CommandParameter>
+                </TapGestureRecognizer>
+            </Grid.GestureRecognizers>
+            <app:SignalTrackPreviewItem BindingContext="{Binding SecondTrack}"
+                                        IsVisible="{Binding BindingContext.HasSecondTrack,Source={x:Reference SecondTrackSelect}}"/>
+            <Label Text="{x:Static app_resources:Strings.NoTrackSelected}"
+                   VerticalOptions="Center">
+                <Label.Triggers>
+                    <DataTrigger TargetType="Label" Binding="{Binding HasSecondTrack}" Value="True">
+                        <Setter Property="IsVisible" Value="False" />
+                    </DataTrigger>
+                </Label.Triggers>
+            </Label>
+        </Grid>
+    </Grid>
+</ContentView>

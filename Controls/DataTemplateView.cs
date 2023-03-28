@@ -1,4 +1,4 @@
-﻿namespace Meander;
+﻿namespace Meander.Controls;
 
 internal class DataTemplateView : Frame
 {
@@ -7,7 +7,7 @@ internal class DataTemplateView : Frame
     public static readonly BindableProperty DataSourceProperty =
         BindableProperty.Create(nameof(DataSource), typeof(object), typeof(DataTemplateView),
             defaultBindingMode: BindingMode.OneWay,
-            propertyChanged: OnDataSourceChanged);
+            propertyChanged: (bo, _, _) => (bo as DataTemplateView)!.UpdateDataTemplate());
 
     public object DataSource
     {
@@ -15,32 +15,22 @@ internal class DataTemplateView : Frame
         set { SetValue(DataSourceProperty, value); }
     }
 
-    public static readonly BindableProperty DataTemplateSelectorProperty =
-        BindableProperty.Create(nameof(DataTemplate), typeof(DataTemplateSelector), typeof(DataTemplateView),
+    public static readonly BindableProperty DataTemplateProperty =
+        BindableProperty.Create(nameof(DataTemplate), typeof(DataTemplate), typeof(DataTemplateView),
             defaultBindingMode: BindingMode.OneWay,
-            propertyChanged: OnDataTemplateSelectorChanged);
+            propertyChanged: (bo, _, _) => (bo as DataTemplateView)!.UpdateDataTemplate());
 
     public DataTemplate DataTemplate
     {
-        get { return (DataTemplate)GetValue(DataTemplateSelectorProperty); }
-        set { SetValue(DataTemplateSelectorProperty, value); }
+        get { return (DataTemplate)GetValue(DataTemplateProperty); }
+        set { SetValue(DataTemplateProperty, value); }
     }
 
     private static View GenerateStubContent()
     {
         var result = new Label();
-        result.SetBinding(Label.TextProperty, new Binding(string.Empty));
+        result.SetBinding(Label.TextProperty, new Binding("."));
         return result;
-    }
-
-    private static void OnDataSourceChanged(BindableObject bindable, object oldValue, object newValue)
-    {
-        (bindable as DataTemplateView)!.UpdateDataTemplate();
-    }
-
-    private static void OnDataTemplateSelectorChanged(BindableObject bindable, object oldValue, object newValue)
-    {
-        (bindable as DataTemplateView)!.UpdateDataTemplate();
     }
 
     private void ClearContent()
@@ -56,7 +46,8 @@ internal class DataTemplateView : Frame
     private void SetContent(View elem, object data)
     {
         elem.BindingContext = data;
-        elem.Parent = this;
+
+        ClearContent();
 
         _content = elem;
         Content = elem;
@@ -85,7 +76,7 @@ internal class DataTemplateView : Frame
         }
 
         if (dataTemplate.CreateContent() is not View newContent)
-            throw new Exception($"{nameof(DataTemplate)} has generated invalid content.");
+            throw new Exception($"{nameof(DataTemplate)} has generated an invalid content (must be a {nameof(View)} type instance).");
 
         newContent.BindingContext = DataSource;
         SetContent(newContent, dataSource);

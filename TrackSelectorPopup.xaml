@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<t:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:t="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:app="clr-namespace:Meander"
+             xmlns:app_controls="clr-namespace:Meander.Controls"
+             xmlns:app_resources="clr-namespace:Meander.Resources"
+             x:Class="Meander.TrackSelectorPopup"
+             x:Name="Root">
+    <CollectionView x:Name="ItemsList"
+                    SelectionMode="Single"
+                    ItemsSource="{Binding ItemsSource, Source={x:Reference Root}}"
+                    SelectedItem="{Binding SelectedItem, Source={x:Reference Root}}"
+                    SelectionChangedCommand="{Binding SelectionChangedCommand, Source={x:Reference Root}}"
+                    SelectionChangedCommandParameter="{Binding SelectedItem, Source={x:RelativeSource Self}}">
+        <CollectionView.ItemTemplate>
+            <DataTemplate>
+                <app:SignalTrackPreviewItem />
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
+    </CollectionView>
+</t:Popup>

@@ -15,6 +15,7 @@
         <app_controls:LocalizedString x:Key="DefaultTrackName">NewSignalTrack</app_controls:LocalizedString>
         <app:PickerDataSource x:Key="SignalKindsDict">
             <sc:DictionaryEntry Key="{x:Static app_signals:SignalKind.Meander}" Value="{x:Static app_resources:Strings.Meander}"/>
+            <sc:DictionaryEntry Key="{x:Static app_signals:SignalKind.Difference}" Value="{x:Static app_resources:Strings.Differential}"/>
         </app:PickerDataSource>
         <app:EditSignalTrackTemplateSelector x:Key="TrackEditorTS" />
     </ContentPage.Resources>
@@ -81,8 +82,8 @@
                     Grid.Row="3"
                     Stroke="{StaticResource Gray200}"
                     StrokeThickness="1">
-                <app:DataTemplateView DataSource="{Binding TrackEditor}"
-                                      DataTemplate="{StaticResource TrackEditorTS}" />
+                <app_controls:DataTemplateView DataSource="{Binding TrackEditor}"
+                                               DataTemplate="{StaticResource TrackEditorTS}" />
             </Border>
         
             <Button Grid.ColumnSpan="99"

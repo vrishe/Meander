@@ -60,20 +60,20 @@ public sealed partial class MainViewModel : ObservableObject, IEnableable
     [RelayCommand]
     private Task DoAddNewSignalTrack()
     {
-        var rng = new Random();
-        _store.Dispatch(new AddNewSignalTrackAction
-        {
-            Name = "テストのツレック",
-            Color = Colors.Teal.ToHex(),
-            SignalKind = SignalKind.Meander,
-            SignalData = new MeanderSignalData(Enumerable
-        .Range(0, _store.State.SamplesCount)
-        .Select(_ => 2 * (rng.NextDouble() - .5)))
-        });
+        //var rng = new Random();
+        //_store.Dispatch(new AddNewSignalTrackAction
+        //{
+        //    Name = "テストのツレック",
+        //    Color = Colors.Teal.ToHex(),
+        //    SignalKind = SignalKind.Meander,
+        //    SignalData = new MeanderSignalData(Enumerable
+        //.Range(0, _store.State.SamplesCount)
+        //.Select(_ => 2 * (rng.NextDouble() - .5)))
+        //});
 
-        return Task.CompletedTask;
+        //return Task.CompletedTask;
 
-        //return _navigation.GoToAsync(Routes.EditSignalTrackUrl);
+        return _navigation.GoToAsync(Routes.EditSignalTrackUrl);
     }
 
     [RelayCommand]

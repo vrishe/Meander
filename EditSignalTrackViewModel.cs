@@ -49,7 +49,7 @@ public sealed partial class EditSignalTrackViewModel : ObservableObject, IQueryA
     [ResourceValue]
     public string DefaultTrackName { get; set; }
 
-    public bool CanSubmit => !string.IsNullOrEmpty(TrackName);
+    public bool CanSubmit => !string.IsNullOrEmpty(TrackName) && _signalDataFactory.IsDataReady;
 
     public void ApplyQueryAttributes(IDictionary<string, object> query)
     {
@@ -125,13 +125,19 @@ public sealed partial class EditSignalTrackViewModel : ObservableObject, IQueryA
     {
         TrackEditor = _signalDataFactory = TrackSignalKind switch
         {
+            SignalKind.Difference => new EditDifferenceSignalViewModel(_store, _signalTrack,
+                DoSubmitCommand.NotifyCanExecuteChanged),
             SignalKind.Meander => new EditMeanderSignalViewModel(_store, _signalTrack?.SignalData),
             _ => throw new NotImplementedException()
         };
+
+        DoSubmitCommand.NotifyCanExecuteChanged();
     }
 
     internal interface ISignalDataFactory
     {
+        public bool IsDataReady { get; }
+
         ISignalData CreateSignalData();
     }
 }
