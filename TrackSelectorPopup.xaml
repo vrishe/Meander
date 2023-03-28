@@ -8,11 +8,13 @@
              x:Class="Meander.TrackSelectorPopup"
              x:Name="Root"
              Color="{StaticResource Gray950}">
-    <VerticalStackLayout Padding="16,8,16,8"
-                         Spacing="16">
+    <Grid Padding="16,8,16,8"
+          RowSpacing="16"
+          RowDefinitions="Auto, *">
         <Label Text="{x:Static app_resources:Strings.PickATrack}"
                FontSize="28"/>
         <CollectionView x:Name="ItemsList"
+                        Grid.Row="1"
                         SelectionMode="Single"
                         ItemsSource="{Binding ItemsSource, Source={x:Reference Root}}"
                         SelectedItem="{Binding SelectedItem, Source={x:Reference Root}}"
@@ -24,5 +26,5 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
-    </VerticalStackLayout>
+    </Grid>
 </t:Popup>

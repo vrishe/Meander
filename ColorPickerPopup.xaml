@@ -6,11 +6,7 @@
          xmlns:colorpicker="https://trungnt2910.github.io/schemas/maui/2022/colorpicker"
          x:Class="Meander.ColorPickerPopup">
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
+    <Grid RowDefinitions="*,Auto">
         <colorpicker:ColorPicker
             x:Name="Picker"
             x:FieldModifier="private"

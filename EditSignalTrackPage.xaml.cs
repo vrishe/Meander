@@ -16,11 +16,11 @@ public partial class EditSignalTrackPage : ContentPage
     private async void TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
     {
         var box = sender as BoxView;
-        var popup = new ColorPickerPopup { PickedColor = box.Color };
+        var popup = new ColorPickerPopup(box.Color);
 
-        await this.ShowPopupAsync(popup);
-
-        box.Color = popup.PickedColor;
+        var result = await this.ShowPopupAsync(popup);
+        if (result is Color newColor)
+            box.Color = newColor;
     }
 }
 

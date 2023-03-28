@@ -4,19 +4,21 @@ namespace Meander;
 
 public partial class ColorPickerPopup : Popup
 {
-	public ColorPickerPopup()
+	public ColorPickerPopup(Color initialColor)
 	{
 		InitializeComponent();
+
+		PickedColor = initialColor;
 	}
 
-	public Color PickedColor
+    public Color PickedColor
 	{
 		get => Picker.PickedColor;
-		set => Picker.PickedColor = value;
+		private set => Picker.PickedColor = value;
 	}
 
     private void Button_Clicked(object sender, EventArgs e)
     {
-		Close();
+		Close(PickedColor);
     }
 }
