@@ -12,7 +12,8 @@
         <app_controls:LocalizedString x:Key="DefaultProjectName">NewProject</app_controls:LocalizedString>
         <x:Int32 x:Key="DefaultSamplesCount">16</x:Int32>
     </ContentPage.Resources>
-    <Grid ColumnSpacing="8" RowSpacing="16">
+    <Grid ColumnSpacing="8"
+          RowSpacing="16">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>

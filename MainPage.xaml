@@ -53,15 +53,15 @@
                                         CommandParameter="{Binding .}"/>
                     </MenuFlyout>
                 </FlyoutBase.ContextFlyout>
-                <Rectangle Grid.Column="1"
-                           BackgroundColor="{StaticResource Gray200}"/>
+                <Rectangle Style="{DynamicResource SeparatorFill}"
+                           Grid.Column="1"/>
                 <app_controls:SignalGraphView Grid.Column="2"
                                               GraphColor="{Binding Color, Converter={StaticResource ColorCVT}}"
                                               GraphThickness="2"
                                               SignalId="{Binding Id}"/>
-                <Rectangle Grid.ColumnSpan="99"
-                           Grid.Row="1"
-                           BackgroundColor="{StaticResource Gray200}"/>
+                <Rectangle Style="{DynamicResource SeparatorFill}"
+                           Grid.ColumnSpan="99"
+                           Grid.Row="1"/>
                 <BoxView Grid.ColumnSpan="99"
                          Color="Transparent">
                     <BoxView.GestureRecognizers>
@@ -94,11 +94,11 @@
                     <Label Text="{x:Static app_resources:Strings.AddSignalTrack}"
                            HorizontalOptions="Center"/>
                 </VerticalStackLayout>
-                <Rectangle Grid.Column="1"
-                           BackgroundColor="{StaticResource Gray200}"/>
-                <Rectangle Grid.ColumnSpan="99"
-                           Grid.Row="1"
-                           BackgroundColor="{StaticResource Gray200}"/>
+                <Rectangle Style="{DynamicResource SeparatorFill}"
+                           Grid.Column="1"/>
+                <Rectangle Style="{DynamicResource SeparatorFill}"
+                           Grid.ColumnSpan="99"
+                           Grid.Row="1"/>
                 <BoxView Grid.ColumnSpan="99"
                          Color="Transparent">
                     <BoxView.GestureRecognizers>
