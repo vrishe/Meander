@@ -169,6 +169,15 @@ namespace Meander.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Pick a Track.
+        /// </summary>
+        public static string PickATrack {
+            get {
+                return ResourceManager.GetString("PickATrack", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Project Name.
         /// </summary>
         public static string ProjectName {

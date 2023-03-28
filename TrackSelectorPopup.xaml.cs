@@ -43,6 +43,8 @@ public partial class TrackSelectorPopup : Popup
     private void ItemsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
 		ItemsList.SelectionChanged -= ItemsList_SelectionChanged;
+		BindingContext = null;
         Close();
+
 	}
 }

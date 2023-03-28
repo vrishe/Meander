@@ -28,10 +28,9 @@
                     <RowDefinition Height="192"/>
                     <RowDefinition Height="1"/>
                 </Grid.RowDefinitions>
-                <Grid>
+                <Grid ColumnSpacing="16">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="12"/>
-                        <ColumnDefinition Width="16"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
@@ -39,9 +38,12 @@
                     </Grid.RowDefinitions>
                     <Rectangle Grid.Column="0"
                                BackgroundColor="{Binding Color, Converter={StaticResource ColorCVT}}"/>
-                    <Label Grid.Column="2"
-                           Text="{Binding Name}"
-                           VerticalOptions="Center"/>
+                    <VerticalStackLayout Grid.Column="1"
+                                         VerticalOptions="Center">
+                        <Label Text="{Binding Name}"/>
+                        <Label Text="{Binding SignalKind}"
+                               FontSize="10"/>
+                    </VerticalStackLayout>
                 </Grid>
                 <Rectangle Grid.Column="1"
                            BackgroundColor="{StaticResource Gray200}"/>
