@@ -38,22 +38,39 @@ internal sealed class SignalGraphView : SKCanvasView
     }
 
     private ISignalsEvaluator _evaluator;
-    private ISignalInterpolator _interpolator;
-    private IDisposable _requestHandle;
-
-    private SKPaint _graphSignalPaint;
     private SKPoint[] _graphPoints = Array.Empty<SKPoint>();
     private bool _graphPointsFilled;
+    private SKPaint _graphSignalPaint;
+    private SKPaint _graphSignalAvgPaint;
+    private SKPaint _graphSignalRmsPaint;
+    private ISignalInterpolator _interpolator;
+    private IDisposable _requestHandle;
+    private double _signalAvg;
+    private double _signalRms;
 
-    private SKPaint GraphSignalPaint => _graphSignalPaint ??= new SKPaint
-    {
-        ColorF = GraphColor.ToSKColorF(),
-        IsAntialias = true,
-        StrokeJoin = SKStrokeJoin.Round,
-        StrokeCap = SKStrokeCap.Round,
-        StrokeWidth = (float)GraphThickness,
-        Style = SKPaintStyle.Stroke,
-    };
+    private SKPaint GraphSignalPaint => _graphSignalPaint
+        ??= SetupGraphSignalPaint(new SKPaint
+        {
+            IsAntialias = true,
+            StrokeJoin = SKStrokeJoin.Round,
+            StrokeCap = SKStrokeCap.Round,
+            Style = SKPaintStyle.Stroke,
+        });
+
+    private SKPaint GraphSignalAvgPaint => _graphSignalAvgPaint
+        ??= SetupGraphSignalAvgPaint(new SKPaint
+        {
+            IsAntialias = true,
+            Style = SKPaintStyle.Stroke,
+            PathEffect = SKPathEffect.CreateDash(new float[] { 16, 8 }, 0),
+        });
+
+    private SKPaint GraphSignalRmsPaint => _graphSignalRmsPaint
+        ??= SetupGraphSignalRmsPaint(new SKPaint
+        {
+            IsAntialias = true,
+            Style = SKPaintStyle.Fill,
+        });
 
     protected override void OnParentSet()
     {
@@ -82,17 +99,7 @@ internal sealed class SignalGraphView : SKCanvasView
 
         canvas.Clear();
 
-        // TODO: draw graph chart decor (axes, marks, etc.)
-
-        DrawSignalGraph(e);
-    }
-
-    private void DrawSignalGraph(SKPaintSurfaceEventArgs e)
-    {
         if (_interpolator == null) return;
-
-        var (info, surface) = (e.Info, e.Surface);
-        var canvas = surface.Canvas;
 
         if (_graphPoints.Length != info.Width)
         {
@@ -100,17 +107,42 @@ internal sealed class SignalGraphView : SKCanvasView
             Array.Resize(ref _graphPoints, info.Width);
         }
 
+        var yCenter = .5f * info.Height;
+        float GetY(double v) => (float)(yCenter * (1 - .95 * v));
+
         if (!_graphPointsFilled)
         {
             _graphPointsFilled = true;
+
+            _signalAvg = 0;
+            _signalRms = 0;
+
+            var div = (double)_graphPoints.Length;
             for (int i = 0, imax = _graphPoints.Length; i < imax; ++i)
             {
+                var v = _interpolator.Interpolate(i / div);
+                var v_div = v / div;
+                _signalAvg += v_div;
+                _signalRms += v * v_div;
+
                 ref var p = ref _graphPoints[i];
                 p.X = i;
-                p.Y = (float)(.5 * info.Height * (1 - _interpolator.Interpolate(i / (double)imax)));
+                p.Y = GetY(v);
             }
+
+            _signalRms = Math.Sqrt(_signalRms);
         }
 
+        // Draw back
+        var yTemp = GetY(_signalRms);
+        var paint = GraphSignalRmsPaint;
+        canvas.DrawRect(new SKRect(-paint.StrokeWidth, yTemp, info.Width + paint.StrokeWidth, yCenter), paint);
+
+        // TODO: draw decor here
+
+        // Draw front
+        yTemp = GetY(_signalAvg);
+        canvas.DrawLine(0, yTemp, info.Width, yTemp, GraphSignalAvgPaint);
         canvas.DrawPoints(SKPointMode.Polygon, _graphPoints, GraphSignalPaint);
     }
 
@@ -132,12 +164,30 @@ internal sealed class SignalGraphView : SKCanvasView
             });
     }
 
+    private SKPaint SetupGraphSignalPaint(SKPaint p)
+    {
+        p.ColorF = GraphColor.ToSKColorF().WithAlpha(1);
+        p.StrokeWidth = (float)GraphThickness;
+        return p;
+    }
+
+    private SKPaint SetupGraphSignalAvgPaint(SKPaint p)
+    {
+        p.ColorF = GraphColor.ToSKColorF().WithAlpha(.45f);
+        p.StrokeWidth = (float)Math.Max(GraphThickness - 1, 1);
+        return p;
+    }
+
+    private SKPaint SetupGraphSignalRmsPaint(SKPaint p)
+    {
+        p.ColorF = GraphColor.ToSKColorF().WithAlpha(.15f);
+        return p;
+    }
+
     private void UpdateGraphPaint()
     {
-        if (_graphSignalPaint == null) return;
-
-        _graphSignalPaint.ColorF = GraphColor.ToSKColorF();
-        _graphSignalPaint.StrokeWidth = (float)GraphThickness;
+        SetupGraphSignalPaint(GraphSignalPaint);
+        SetupGraphSignalAvgPaint(GraphSignalAvgPaint);
 
         InvalidateSurface();
     }
