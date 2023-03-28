@@ -5,11 +5,14 @@ internal partial class SignalsEvaluator
     private static DifferenceSignalInterpolator CreateDifferenceSignalInterpolator(SignalSamplingState state, IReadOnlyDictionary<Guid, DispatchInfo> dispatchInfo)
     {
         var data = state.Data as DifferenceSignalData;
-        return new()
-        {
-            Minuend = dispatchInfo[data!.MinuendSignalId].Interpolator,
-            Subtrahend = dispatchInfo[data!.SubtrahendSignalId].Interpolator,
-        };
+
+        EmptyInterpolator fallback = default;
+        dispatchInfo.TryGetValue(data!.MinuendSignalId, out var di);
+        var m = di.Interpolator ?? (fallback ??= new EmptyInterpolator());
+        dispatchInfo.TryGetValue(data!.SubtrahendSignalId, out di);
+        var s = di.Interpolator ?? (fallback ?? new EmptyInterpolator());
+
+        return new() { Minuend = m, Subtrahend = s };
     }
 
     private static MeanderSignalInterpolator CreateMeanderSignalInterpolator(SignalSamplingState state, in SwapchainSlot front)
@@ -23,5 +26,10 @@ internal partial class SignalsEvaluator
             SignalKind.Meander => CreateMeanderSignalInterpolator(state, front),
             _ => throw new NotSupportedException($"{state.Data.Kind} interpolation is not supported.")
         };
+    }
+
+    private class EmptyInterpolator : ISignalInterpolator
+    {
+        public double Interpolate(double t) => 0;
     }
 }

@@ -27,11 +27,7 @@ internal static class ReducersImpl
                 .ToList()
             });
 
-        yield return On<DeleteSignalTrackAction, GlobalState>(
-            (state, action) => state with
-            {
-                Tracks = state.Tracks.Where(t => t.Id != action.TrackId).ToList()
-            });
+        yield return On<DeleteSignalTrackAction, GlobalState>(OnDeleteSignalTrackAction);
 
         yield return On<UpdateSignalTrackAction, GlobalState>(
             (state, action) => state with
@@ -49,4 +45,24 @@ internal static class ReducersImpl
                     })
             });
     }
+
+    private static GlobalState OnDeleteSignalTrackAction(GlobalState state, DeleteSignalTrackAction action)
+    {
+        return state with
+        {
+            Tracks = state.Tracks.Where(t => t.Id != action.TrackId
+                    && t.SignalData?.Dependencies.Contains(action.TrackId) != true)
+                .ToList()
+        };
+    }
+
+    //private static GlobalState OnDeleteSignalTrackAction2(GlobalState state, DeleteSignalTrackAction action)
+    //{
+    //    if (state.Tracks.Any(t => t.SignalData.Dependencies.Contains(action.TrackId))) return state;
+
+    //    return state with
+    //    {
+    //        Tracks = state.Tracks.Where(t => t.Id != action.TrackId).ToList()
+    //    };
+    //}
 }

@@ -64,6 +64,7 @@ public sealed partial class MainViewModel : ObservableObject, IEnableable
     private void DoDeleteSignalTrack(SignalTrack track)
     {
         if (track == null) return;
+
         _store.Dispatch(new DeleteSignalTrackAction { TrackId = track.Id });
     }
 
