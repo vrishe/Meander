@@ -11,9 +11,9 @@ internal sealed partial class SignalsEvaluator : ISignalsEvaluator
     private IDictionary<Guid, DispatchInfo> _dispatchInfo;
     private Dictionary<Guid, Subscription<ISignalInterpolator>> _subscriptions;
 
-    public SignalsEvaluator(ILoggerProvider logger)
+    public SignalsEvaluator(ILogger<App> logger)
     {
-        _logger = logger.CreateLogger(nameof(SignalsEvaluator));
+        _logger = logger;
     }
 
     public SignalDataAdapter Adapter

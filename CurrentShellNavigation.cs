@@ -6,9 +6,9 @@ internal sealed class CurrentShellNavigation : IShellNavigation
 {
     private readonly ILogger _logger;
 
-    public CurrentShellNavigation(ILoggerProvider loggerProvider)
+    public CurrentShellNavigation(ILogger<App> logger)
     {
-        _logger = loggerProvider.CreateLogger(nameof(CurrentShellNavigation));
+        _logger = logger;
     }
 
     public Task GoToAsync(string location)

@@ -9,8 +9,8 @@
              Padding="16">
     <VerticalStackLayout Spacing="16">
         <Button Text="{x:Static app_resources:Strings.New}"
-                Command="{Binding DoNewCommand}"/>
-        <Button Text="{x:Static app_resources:Strings.Open}"
-                IsEnabled="False"/>
+                Command="{Binding DoBeginNewProjectCommand}"/>
+        <Button Text="{x:Static app_resources:Strings.Import}"
+                Command="{Binding DoImportProjectCommand}"/>
     </VerticalStackLayout>
 </ContentPage>

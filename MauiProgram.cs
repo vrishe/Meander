@@ -30,10 +30,12 @@ public static class MauiProgram
 		builder.Services.AddSingleton(StoreSetup.NewStore());
 		builder.Services.AddSingleton<IShellNavigation, CurrentShellNavigation>();
 		builder.Services.AddSingleton<ISignalsEvaluator>(serviceProvider
-			=> new SignalsEvaluator(serviceProvider.GetRequiredService<ILoggerProvider>())
+			=> new SignalsEvaluator(serviceProvider.GetRequiredService<ILogger<App>>())
 			{
 				Adapter = serviceProvider.GetRequiredService<GlobalStateSignalsAdapter>()
 			});
+
+		builder.Services.AddTransient<IFilePersistencyService, DefaultFilePersistencyService>().AllowLazy();
 
 		builder.Services.AddTransient<GlobalStateSignalsAdapter>();
         builder.Services.AddTransient<EditSignalTrackPage>();

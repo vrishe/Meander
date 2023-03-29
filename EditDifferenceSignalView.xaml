@@ -9,16 +9,10 @@
     <ContentView.Resources>
         <app_controls:FormattedStringConverter x:Key="FormattedStringCVT"/>
     </ContentView.Resources>
-    <Grid ColumnSpacing="16"
+    <Grid ColumnDefinitions="96,*"
+          ColumnSpacing="16"
+          RowDefinitions="Auto, Auto"
           RowSpacing="8">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="96" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
         <Label Text="{x:Static app_resources:Strings.First}"
                VerticalOptions="Center"/>
         <Grid x:Name="FirstTrackSelect"

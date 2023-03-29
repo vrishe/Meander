@@ -7,7 +7,8 @@ public partial class MainPage : ContentPage
 		InitializeComponent();
 
 		BindingContext = vm;
-        this.WithEnableable();
+        this.WithMenuBarItemsFix()
+            .WithEnableable();
 	}
 }
 

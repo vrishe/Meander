@@ -29,21 +29,11 @@
     <ScrollView
         HorizontalScrollBarVisibility="Never"
         VerticalScrollBarVisibility="Default">
-        <Grid ColumnSpacing="8"
+        <Grid ColumnDefinitions="Auto,*"
+              ColumnSpacing="8"
+              RowDefinitions="Auto,Auto,Auto,Auto,Auto"
               RowSpacing="16"
               HorizontalOptions="Fill">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
-
             <Label Text="{x:Static app_resources:Strings.TrackName}"
                    VerticalOptions="Center"/>
             <Entry x:Name="TrackNameEntry"
@@ -61,7 +51,6 @@
                     <m:TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
                 </BoxView.GestureRecognizers>
             </BoxView>
-
             <Label Grid.Row="2"
                    Text="{x:Static app_resources:Strings.SignalKind}"
                    VerticalOptions="Center"/>
@@ -77,7 +66,6 @@
                             app_controls:MappingConverter Mapping={app_controls:StaticResourceBinding SignalKindsDict, Binding={Binding DisplayMapping}},
                             FallbackValue='missing mapping entry'}
                         }"/>
-
             <Border Grid.ColumnSpan="99"
                     Grid.Row="3"
                     Stroke="{StaticResource Gray200}"
@@ -85,12 +73,10 @@
                 <app_controls:DataTemplateView DataSource="{Binding TrackEditor}"
                                                DataTemplate="{StaticResource TrackEditorTS}" />
             </Border>
-        
             <Button Grid.ColumnSpan="99"
                     Grid.Row="4"
                     Text="{x:Static app_resources:Strings.Submit}"
                     Command="{Binding DoSubmitCommand}"/>
-
         </Grid>
     </ScrollView>
 </ContentPage>

@@ -1,6 +1,6 @@
 ﻿namespace Meander.State.Actions;
 
-internal class DeleteSignalTrackAction
+internal sealed class DeleteSignalTrackAction
 {
     public Guid TrackId;
 }

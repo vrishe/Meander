@@ -2,7 +2,7 @@
 
 namespace Meander.State.Actions;
 
-internal class UpdateSignalTrackAction
+internal sealed class UpdateSignalTrackAction
 {
     public Guid Id;
     public string Name;

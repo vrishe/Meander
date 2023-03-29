@@ -6,6 +6,49 @@ namespace Meander;
 
 internal static class MauiControlsExtensions
 {
+    public static void FillBindingContextResourceValues(this VisualElement dst)
+    {
+        if (dst is null) throw new ArgumentNullException(nameof(dst));
+
+        var bc = dst.BindingContext;
+        if (bc is null) return;
+
+        var type = bc.GetType();
+        var props = type.GetRuntimeProperties().Where(pi => pi.CanWrite)
+            .Select(pi => (pi, attr: pi.GetCustomAttribute<ResourceValueAttribute>())).Where(t => t.attr != null);
+
+        var res = dst.Resources;
+        var logger = new Lazy<ILogger>(() => App.FindMauiContext(dst).Services.GetService<ILogger<App>>(),
+            LazyThreadSafetyMode.None);
+        foreach (var (pi, attr) in props)
+        {
+            var key = attr.Alias ?? pi.Name;
+
+            try
+            {
+                var value = res[key];
+                if (value == null)
+                {
+                    logger.Value?.LogWarning("'{}' resource value is 'null'", key);
+
+                    pi.SetValue(bc, null);
+                    continue;
+                }
+
+                var op = GetImplicitConversionOperator(value.GetType(), value.GetType(), pi.PropertyType);
+                pi.SetValue(bc, op != null
+                    ? op.Invoke(null, new[] { value })
+                    : Convert.ChangeType(value, pi.PropertyType));
+            }
+            catch (Exception e)
+            {
+                logger.Value?.LogError(e, "Failed to assign '{}' resource value to {}.{}", key, type.FullName, pi.Name);
+            }
+        }
+
+        (bc as IFinishedApplyResourceValues)?.OnResourceValuesApplied();
+    }
+
     public static VisualElement WithEnableable(this VisualElement dst)
     {
         bool CheckEnabled() => dst.IsEnabled && dst.Parent != null;
@@ -92,47 +135,18 @@ internal static class MauiControlsExtensions
         return dst;
     }
 
-    public static void FillBindingContextResourceValues(this VisualElement dst)
+    public static ContentPage WithMenuBarItemsFix(this ContentPage page)
     {
-        if (dst is null) throw new ArgumentNullException(nameof(dst));
-
-        var bc = dst.BindingContext;
-        if (bc is null) return;
-
-        var type = bc.GetType();
-        var props = type.GetRuntimeProperties().Where(pi => pi.CanWrite)
-            .Select(pi => (pi, attr: pi.GetCustomAttribute<ResourceValueAttribute>())).Where(t => t.attr != null);
-
-        var res = dst.Resources;
-        var logger = new Lazy<ILogger>(() => App.FindMauiContext(dst).Services.GetService<ILoggerFactory>()?.CreateLogger(dst.GetType()),
-            LazyThreadSafetyMode.None);
-        foreach (var (pi, attr) in props)
+        void ApplyMenuBarItemsContext()
         {
-            var key = attr.Alias ?? pi.Name;
-
-            try
-            {
-                var value = res[key];
-                if (value == null)
-                {
-                    logger.Value?.LogWarning("'{}' resource value is 'null'", key);
-
-                    pi.SetValue(bc, null);
-                    continue;
-                }
-
-                var op = GetImplicitConversionOperator(value.GetType(), value.GetType(), pi.PropertyType);
-                pi.SetValue(bc, op != null
-                    ? op.Invoke(null, new[] { value })
-                    : Convert.ChangeType(value, pi.PropertyType));
-            }
-            catch (Exception e)
-            {
-                logger.Value?.LogError(e, "Failed to assign '{}' resource value to {}.{}", key, type.FullName, pi.Name);
-            }
+            foreach (var item in page.MenuBarItems)
+                item.BindingContext = page.BindingContext;
         }
 
-        (bc as IFinishedApplyResourceValues)?.OnResourceValuesApplied();
+        page.Appearing += (s, e) => ApplyMenuBarItemsContext();
+        page.BindingContextChanged += (s, e) => ApplyMenuBarItemsContext();
+
+        return page;
     }
 
     private static MethodInfo GetImplicitConversionOperator(Type onType, Type fromType, Type toType)

@@ -1,15 +1,19 @@
 ﻿using System.Collections.ObjectModel;
 using System.Reactive.Linq;
+using CommunityToolkit.Maui.Storage;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Meander.State;
 using Meander.State.Actions;
+using Microsoft.Extensions.Logging;
 using ReduxSimple;
 
 namespace Meander;
 
 public sealed partial class MainViewModel : ObservableObject, IEnableable
 {
+    private readonly Lazy<IFilePersistencyService> _filePersistency;
+    private readonly ILogger _logger;
     private readonly IShellNavigation _navigation;
     private readonly ReduxStore<GlobalState> _store;
     private readonly IList<IDisposable> _subscriptions = new List<IDisposable>();
@@ -17,8 +21,10 @@ public sealed partial class MainViewModel : ObservableObject, IEnableable
     [ObservableProperty]
     private string _projectName;
 
-    public MainViewModel(IShellNavigation navigation, ReduxStore<GlobalState> store)
+    public MainViewModel(Lazy<IFilePersistencyService> filePersistency, ILogger<App> logger, IShellNavigation navigation, ReduxStore<GlobalState> store)
     {
+        _filePersistency = filePersistency;
+        _logger = logger;
         _navigation = navigation;
         _store = store;
 
@@ -61,6 +67,9 @@ public sealed partial class MainViewModel : ObservableObject, IEnableable
         _navigation.GoToAsync(Routes.EditSignalTrackUrl);
 
     [RelayCommand]
+    private Task DoBeginNewProject() => _navigation.GoToAsync(Routes.ProjectSetupUrl);
+
+    [RelayCommand]
     private void DoDeleteSignalTrack(SignalTrack track)
     {
         if (track == null) return;
@@ -74,4 +83,26 @@ public sealed partial class MainViewModel : ObservableObject, IEnableable
             new Dictionary<string, object> {
                 [Routes.EditSignalTrackQueryParams.TrackId] = trackId
             });
+
+    [RelayCommand]
+    private Task DoExportProject() => _filePersistency.Value.ExportProjectAsync();
+
+    [RelayCommand]
+    private async Task DoImportProject()
+    {
+        try
+        {
+            await _filePersistency.Value.ImportProjectAsync();
+        }
+        catch (Exception e)
+        {
+            if (e is not OperationCanceledException)
+                _logger.LogError(e, nameof(DoImportProjectCommand));
+
+            return;
+        }
+    }
+
+    [RelayCommand]
+    private void DoQuit() => Application.Current.Quit();
 }

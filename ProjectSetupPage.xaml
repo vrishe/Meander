@@ -12,18 +12,10 @@
         <app_controls:LocalizedString x:Key="DefaultProjectName">NewProject</app_controls:LocalizedString>
         <x:Int32 x:Key="DefaultSamplesCount">16</x:Int32>
     </ContentPage.Resources>
-    <Grid ColumnSpacing="8"
+    <Grid ColumnDefinitions="Auto,*"
+          ColumnSpacing="8"
+          RowDefinitions="Auto,Auto,Auto"
           RowSpacing="16">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
-
         <Label Text="{x:Static app_resources:Strings.ProjectName}"
                VerticalOptions="Center"/>
         <Entry x:Name="ProjectNameEntry"

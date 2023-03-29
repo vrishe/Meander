@@ -9,9 +9,6 @@ internal static class ReducersImpl
 {
     public static IEnumerable<On<GlobalState>> Build()
     {
-        yield return On<CreateProjectAction, GlobalState>(
-                (_, action) => new GlobalState { ProjectName = action.ProjectName, SamplesCount = action.SamplesCount });
-
         yield return On<AddNewSignalTrackAction, GlobalState>(
             (state, action) => state with
             {
@@ -27,7 +24,12 @@ internal static class ReducersImpl
                 .ToList()
             });
 
+        yield return On<CreateProjectAction, GlobalState>(
+            (_, action) => new GlobalState { ProjectName = action.ProjectName, SamplesCount = action.SamplesCount });
+
         yield return On<DeleteSignalTrackAction, GlobalState>(OnDeleteSignalTrackAction);
+
+        yield return On<ReplaceStateAction, GlobalState>((state, action) => action.NewState ?? state);
 
         yield return On<UpdateSignalTrackAction, GlobalState>(
             (state, action) => state with

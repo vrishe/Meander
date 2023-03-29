@@ -37,9 +37,9 @@ public sealed partial class EditSignalTrackViewModel : ObservableObject, IQueryA
     private ISignalDataFactory _signalDataFactory;
     private SignalTrack _signalTrack;
 
-    public EditSignalTrackViewModel(ILoggerProvider loggerProvider, IShellNavigation navigation, ReduxStore<GlobalState> store)
+    public EditSignalTrackViewModel(ILogger<App> logger, IShellNavigation navigation, ReduxStore<GlobalState> store)
     {
-        _logger = loggerProvider.CreateLogger(nameof(EditSignalTrackViewModel));
+        _logger = logger;
         _navigation = navigation;
         _store = store;
 

@@ -9,8 +9,8 @@
              x:Name="Root"
              Color="{StaticResource Gray950}">
     <Grid Padding="16,8,16,8"
-          RowSpacing="16"
-          RowDefinitions="Auto, *">
+          RowDefinitions="Auto, *"
+          RowSpacing="16">
         <Label Text="{x:Static app_resources:Strings.PickATrack}"
                FontSize="28"/>
         <CollectionView x:Name="ItemsList"

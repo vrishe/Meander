@@ -1,6 +1,6 @@
 ﻿namespace Meander.State.Actions;
 
-public class CreateProjectAction
+internal sealed class CreateProjectAction
 {
     public string ProjectName;
     public int SamplesCount;

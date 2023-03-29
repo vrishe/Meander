@@ -132,8 +132,14 @@
   <data name="EditSignalTrack" xml:space="preserve">
     <value>Edit Track</value>
   </data>
+  <data name="Export" xml:space="preserve">
+    <value>Export</value>
+  </data>
   <data name="First" xml:space="preserve">
     <value>First</value>
+  </data>
+  <data name="Import" xml:space="preserve">
+    <value>Import</value>
   </data>
   <data name="Meander" xml:space="preserve">
     <value>Meander</value>
@@ -161,6 +167,9 @@
   </data>
   <data name="ProjectName" xml:space="preserve">
     <value>Project Name</value>
+  </data>
+  <data name="Quit" xml:space="preserve">
+    <value>Quit</value>
   </data>
   <data name="SamplesCount" xml:space="preserve">
     <value>Samples Count</value>

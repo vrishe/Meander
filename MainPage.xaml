@@ -10,33 +10,23 @@
              x:DataType="app:MainViewModel"
              x:Name="Root"
              Title="{Binding ProjectName}">
-
     <ContentPage.Resources>
-
         <app_controls:RevertedConversion x:Key="ColorCVT">
             <t:ColorToHexRgbStringConverter/>
         </app_controls:RevertedConversion>
-
         <DataTemplate x:Key="ExistingSignalTrackItem"
                       x:DataType="app_state:SignalTrack">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="192"/>
-                    <ColumnDefinition Width="1"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="192"/>
-                    <RowDefinition Height="1"/>
-                </Grid.RowDefinitions>
-                <Grid ColumnSpacing="16">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="12"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
+            <Grid ColumnDefinitions="192,1,*"
+                  RowDefinitions="192, 1">
+                <FlyoutBase.ContextFlyout>
+                    <MenuFlyout>
+                        <MenuFlyoutItem Text="{x:Static app_resources:Strings.DeleteTrack}"
+                                        Command="{Binding BindingContext.DoDeleteSignalTrackCommand, Source={x:Reference Root}}"
+                                        CommandParameter="{Binding .}"/>
+                    </MenuFlyout>
+                </FlyoutBase.ContextFlyout>
+                <Grid ColumnDefinitions="12,*"
+                      ColumnSpacing="16">
                     <Rectangle Grid.Column="0"
                                BackgroundColor="{Binding Color, Converter={StaticResource ColorCVT}}"/>
                     <VerticalStackLayout Grid.Column="1"
@@ -46,13 +36,6 @@
                                FontSize="10"/>
                     </VerticalStackLayout>
                 </Grid>
-                <FlyoutBase.ContextFlyout>
-                    <MenuFlyout>
-                        <MenuFlyoutItem Text="{x:Static app_resources:Strings.DeleteTrack}"
-                                        Command="{Binding BindingContext.DoDeleteSignalTrackCommand, Source={x:Reference Root}}"
-                                        CommandParameter="{Binding .}"/>
-                    </MenuFlyout>
-                </FlyoutBase.ContextFlyout>
                 <Rectangle Style="{DynamicResource SeparatorFill}"
                            Grid.Column="1"/>
                 <app_controls:SignalGraphView Grid.Column="2"
@@ -72,18 +55,9 @@
                 </BoxView>
             </Grid>
         </DataTemplate>
-
         <DataTemplate x:Key="NewSignalTrackItem">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="192"/>
-                    <ColumnDefinition Width="1"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="192"/>
-                    <RowDefinition Height="1"/>
-                </Grid.RowDefinitions>
+            <Grid ColumnDefinitions="192,1,*"
+                  RowDefinitions="192, 1">
                 <VerticalStackLayout HorizontalOptions="Fill"
                                      VerticalOptions="Center"
                                      Spacing="16">
@@ -107,17 +81,21 @@
                 </BoxView>
             </Grid>
         </DataTemplate>
-
         <app:SignalTrackTemplateSelector
             x:Key="SignalTrackTS"
             Regular="{StaticResource ExistingSignalTrackItem}"
             Trailing="{StaticResource NewSignalTrackItem}"/>
-
     </ContentPage.Resources>
-
-    <CollectionView
-        ItemTemplate="{StaticResource SignalTrackTS}"
-        ItemsLayout="VerticalList"
-        ItemsSource="{Binding Tracks}"/>
-
+    <ContentPage.MenuBarItems>
+        <MenuBarItem Text="File">
+            <MenuFlyoutItem Text="{x:Static app_resources:Strings.New}" Command="{Binding DoBeginNewProjectCommand}"/>
+            <MenuFlyoutItem Text="{x:Static app_resources:Strings.Import}" Command="{Binding DoImportProjectCommand}"/>
+            <MenuFlyoutItem Text="{x:Static app_resources:Strings.Export}" Command="{Binding DoExportProjectCommand}"/>
+            <MenuFlyoutItem Text="{x:Static app_resources:Strings.Quit}" Command="{Binding DoQuitCommand}"/>
+        </MenuBarItem>
+    </ContentPage.MenuBarItems>
+    <CollectionView Grid.Row="1"
+                    ItemTemplate="{StaticResource SignalTrackTS}"
+                    ItemsLayout="VerticalList"
+                    ItemsSource="{Binding Tracks}"/>
 </ContentPage>

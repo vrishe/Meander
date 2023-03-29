@@ -2,7 +2,7 @@
 
 namespace Meander.State.Actions;
 
-public sealed class AddNewSignalTrackAction
+internal sealed class AddNewSignalTrackAction
 {
     public string Name;
     public string Color;

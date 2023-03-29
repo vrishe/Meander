@@ -30,11 +30,7 @@
     </ContentView.Resources>
     <Grid x:Name="StepsGrid"
           x:FieldModifier="private"
+          ColumnDefinitions="Auto,*"
           ColumnSpacing="16"
-          RowSpacing="8">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-    </Grid>
+          RowSpacing="8"/>
 </ContentView>
