@@ -37,6 +37,8 @@ public partial class TrackSelectorPopup : Popup
 	public TrackSelectorPopup()
 	{
 		InitializeComponent();
+		this.ApplyPopupStyle();
+
 		Dispatcher.Dispatch(() => ItemsList.SelectionChanged += ItemsList_SelectionChanged);
 	}
 

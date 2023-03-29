@@ -7,6 +7,7 @@ public partial class ColorPickerPopup : Popup
 	public ColorPickerPopup(Color initialColor)
 	{
 		InitializeComponent();
+		this.ApplyPopupStyle();
 
 		PickedColor = initialColor;
 	}

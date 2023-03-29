@@ -6,8 +6,7 @@
              xmlns:app_controls="clr-namespace:Meander.Controls"
              xmlns:app_resources="clr-namespace:Meander.Resources"
              x:Class="Meander.TrackSelectorPopup"
-             x:Name="Root"
-             Color="{StaticResource Gray950}">
+             x:Name="Root">
     <Grid Padding="16,8,16,8"
           RowDefinitions="Auto, *"
           RowSpacing="16">

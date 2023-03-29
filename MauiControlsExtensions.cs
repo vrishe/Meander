@@ -1,11 +1,41 @@
 ﻿using System.ComponentModel;
 using System.Reflection;
+using CommunityToolkit.Maui.Views;
 using Microsoft.Extensions.Logging;
 
 namespace Meander;
 
 internal static class MauiControlsExtensions
 {
+    public static void ApplyPopupStyle(this Popup popup)
+    {
+        Style FindStyle(ResourceDictionary res)
+        {
+            var style = popup.GetPopupStyle();
+            if (style == null && res.TryGetValue(typeof(Popup).FullName, out var styleRaw))
+                style = styleRaw as Style;
+            return style;
+        }
+
+        void ApplyStyle(Style style)
+        {
+            if (style == null) return;
+
+            foreach (var setter in style.Setters)
+            {
+                if (setter.Value is BindingBase binding)
+                {
+                    popup.SetBinding(setter.Property, binding);
+                    continue;
+                }
+
+                popup.SetValue(setter.Property, setter.Value);
+            }
+        }
+
+        ApplyStyle(FindStyle(Application.Current.Resources));
+    }
+
     public static void FillBindingContextResourceValues(this VisualElement dst)
     {
         if (dst is null) throw new ArgumentNullException(nameof(dst));
