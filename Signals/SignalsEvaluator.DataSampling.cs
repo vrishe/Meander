@@ -45,6 +45,8 @@ internal partial class SignalsEvaluator
 
                 _logger.LogWarning("Unknown signal dependency with id: {}", otherId);
             }
+
+            visited.Remove(ws.Id);
         }
 
         foreach (var (id, ws) in signalsMap)

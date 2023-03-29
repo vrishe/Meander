@@ -49,14 +49,19 @@ public sealed partial class MainViewModel : ObservableObject, IEnableable
             .DistinctUntilChanged()
             .Subscribe(t =>
             {
+                var iOffset = 0;
+                var rOffset = 0;
                 var diff = Diff.Find(Tracks.SkipLast(1), t);
                 foreach (var entry in diff)
                 {
                     var n = entry.deletedA;
                     while (n-- > 0)
-                        Tracks.RemoveAt(entry.StartA);
+                        Tracks.RemoveAt(entry.StartA + rOffset);
+                    rOffset -= entry.deletedA;
+
                     for (var i = 0; i < entry.insertedB; ++i)
-                        Tracks.Insert(entry.StartA + i, t[entry.StartB + i]);
+                        Tracks.Insert(entry.StartA + i + iOffset, t[entry.StartB + i]);
+                    iOffset += entry.insertedB;
                 }
             })
             .PutOnRecord(_subscriptions);

@@ -1,4 +1,5 @@
-﻿using Meander.State.Actions;
+﻿using Meander.Signals;
+using Meander.State.Actions;
 using ReduxSimple;
 
 namespace Meander.State;
@@ -25,9 +26,21 @@ internal static class ReducersImpl
             });
 
         yield return On<CreateProjectAction, GlobalState>(
-            (_, action) => new GlobalState { ProjectName = action.ProjectName, SamplesCount = action.SamplesCount });
+            (_, action) => new GlobalState
+            {
+                ProjectName = action.ProjectName,
+                SamplesCount = action.SamplesCount
+            });
 
-        yield return On<DeleteSignalTrackAction, GlobalState>(OnDeleteSignalTrackAction);
+        yield return On<DeleteSignalTrackAction, GlobalState>(
+            (state, action) =>
+            {
+                var map = state.Tracks.ToLookup(t => t.Id);
+                bool Unrelated(SignalTrack t) => t.Id != action.TrackId
+                    && t.SignalData?.Dependencies.SelectMany(id => map[id]).All(Unrelated) != false;
+
+                return state with { Tracks = state.Tracks.Where(Unrelated).ToList() };
+            });
 
         yield return On<ReplaceStateAction, GlobalState>((state, action) => action.NewState ?? state);
 
@@ -47,24 +60,4 @@ internal static class ReducersImpl
                     })
             });
     }
-
-    private static GlobalState OnDeleteSignalTrackAction(GlobalState state, DeleteSignalTrackAction action)
-    {
-        return state with
-        {
-            Tracks = state.Tracks.Where(t => t.Id != action.TrackId
-                    && t.SignalData?.Dependencies.Contains(action.TrackId) != true)
-                .ToList()
-        };
-    }
-
-    //private static GlobalState OnDeleteSignalTrackAction2(GlobalState state, DeleteSignalTrackAction action)
-    //{
-    //    if (state.Tracks.Any(t => t.SignalData.Dependencies.Contains(action.TrackId))) return state;
-
-    //    return state with
-    //    {
-    //        Tracks = state.Tracks.Where(t => t.Id != action.TrackId).ToList()
-    //    };
-    //}
 }

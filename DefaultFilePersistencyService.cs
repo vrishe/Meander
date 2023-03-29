@@ -77,7 +77,11 @@ internal sealed class DefaultFilePersistencyService : IFilePersistencyService
         };
 
         await MainThread.InvokeOnMainThreadAsync(
-            () => _store.Dispatch(new ReplaceStateAction { NewState = state }));
+            () =>
+            {
+                _store.Reset();
+                _store.Dispatch(new ReplaceStateAction { NewState = state });
+            });
     }
 
     private static void GetOutputPathAndFileName(GlobalState state, string tempFile, out string exportPath, out string fileName)
