@@ -12,29 +12,32 @@
         <app_controls:LocalizedString x:Key="DefaultProjectName">NewProject</app_controls:LocalizedString>
         <x:Int32 x:Key="DefaultSamplesCount">16</x:Int32>
     </ContentPage.Resources>
-    <Grid ColumnDefinitions="Auto,*"
-          ColumnSpacing="8"
-          RowDefinitions="Auto,Auto,Auto"
-          RowSpacing="16">
-        <Label Text="{x:Static app_resources:Strings.ProjectName}"
-               VerticalOptions="Center"/>
-        <Entry x:Name="ProjectNameEntry"
-               Grid.Column="1"
-               Text="{Binding ProjectName}"/>
-        <Label Grid.Row="1"
-               Text="{x:Static app_resources:Strings.SamplesCount}"
-               VerticalOptions="Center" />
-        <Entry Grid.Column="1"
-               Grid.Row="1">
-            <Entry.Behaviors>
-                <app_controls:IntegerNumberInputBehaviour Value="{Binding SamplesCount}" />
-            </Entry.Behaviors>
-        </Entry>
+    <Grid>
+        <Image Style="{StaticResource PageBackgroundLogo}" />
+        <Grid ColumnDefinitions="Auto,*"
+              ColumnSpacing="8"
+              RowDefinitions="Auto,Auto,Auto"
+              RowSpacing="16">
+            <Label Text="{x:Static app_resources:Strings.ProjectName}"
+                   VerticalOptions="Center"/>
+            <Entry x:Name="ProjectNameEntry"
+                   Grid.Column="1"
+                   Text="{Binding ProjectName}"/>
+            <Label Grid.Row="1"
+                   Text="{x:Static app_resources:Strings.SamplesCount}"
+                   VerticalOptions="Center" />
+            <Entry Grid.Column="1"
+                   Grid.Row="1">
+                <Entry.Behaviors>
+                    <app_controls:IntegerNumberInputBehaviour Value="{Binding SamplesCount}" />
+                </Entry.Behaviors>
+            </Entry>
 
-        <Button Grid.ColumnSpan="99"
-                Grid.Row="2"
-                Text="{x:Static app_resources:Strings.OK}"
-                Command="{Binding DoCreateNewProjectCommand}"/>
+            <Button Grid.ColumnSpan="99"
+                    Grid.Row="2"
+                    Text="{x:Static app_resources:Strings.OK}"
+                    Command="{Binding DoCreateNewProjectCommand}"/>
 
+        </Grid>
     </Grid>
 </ContentPage>

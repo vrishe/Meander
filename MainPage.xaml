@@ -102,8 +102,17 @@
             <MenuFlyoutItem Text="{x:Static app_resources:Strings.Quit}" Command="{Binding DoQuitCommand}"/>
         </MenuBarItem>
     </ContentPage.MenuBarItems>
-    <CollectionView Grid.Row="1"
-                    ItemTemplate="{StaticResource SignalTrackTS}"
-                    ItemsLayout="VerticalList"
-                    ItemsSource="{Binding Tracks}"/>
+    <Grid>
+        <Image Style="{StaticResource PageBackgroundLogo}" >
+            <Image.Triggers>
+                <DataTrigger TargetType="Image" Binding="{Binding HasTracks}" Value="True">
+                    <Setter Property="IsVisible" Value="False"/>
+                </DataTrigger>
+            </Image.Triggers>
+        </Image>
+        <CollectionView Grid.Row="1"
+                        ItemTemplate="{StaticResource SignalTrackTS}"
+                        ItemsLayout="VerticalList"
+                        ItemsSource="{Binding Tracks}"/>
+    </Grid>
 </ContentPage>

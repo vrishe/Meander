@@ -7,10 +7,14 @@
              x:DataType="app:StartUpViewModel"
              Title="{x:Static app_resources:Strings.AppTitle}"
              Padding="16">
-    <VerticalStackLayout Spacing="16">
-        <Button Text="{x:Static app_resources:Strings.New}"
-                Command="{Binding DoBeginNewProjectCommand}"/>
-        <Button Text="{x:Static app_resources:Strings.Import}"
-                Command="{Binding DoImportProjectCommand}"/>
-    </VerticalStackLayout>
+    <Grid>
+        <Image Style="{StaticResource PageBackgroundLogo}" />
+        <VerticalStackLayout Spacing="16">
+            <Button Text="{x:Static app_resources:Strings.New}"
+                    Command="{Binding DoBeginNewProjectCommand}"/>
+            <Button Text="{x:Static app_resources:Strings.Import}"
+                    Command="{Binding DoImportProjectCommand}"/>
+        </VerticalStackLayout>
+    </Grid>
+
 </ContentPage>

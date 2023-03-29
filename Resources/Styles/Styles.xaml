@@ -418,5 +418,11 @@
     <Style x:Key="SeparatorFill" TargetType="Rectangle">
         <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray500}}" />
     </Style>
+
+    <Style x:Key="PageBackgroundLogo" TargetType="Image">
+        <Setter Property="Aspect">Center</Setter>
+        <Setter Property="Opacity">0.028</Setter>
+        <Setter Property="Source">logo.png</Setter>
+    </Style>
     
 </ResourceDictionary>

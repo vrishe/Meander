@@ -26,57 +26,61 @@
             <Setter Property="Title" Value="{x:Static app_resources:Strings.NewSignalTrack}"/>
         </DataTrigger>
     </ContentPage.Triggers>
-    <ScrollView
-        HorizontalScrollBarVisibility="Never"
-        VerticalScrollBarVisibility="Default">
-        <Grid ColumnDefinitions="Auto,*"
-              ColumnSpacing="8"
-              RowDefinitions="Auto,Auto,Auto,Auto,Auto"
-              RowSpacing="16"
-              HorizontalOptions="Fill">
-            <Label Text="{x:Static app_resources:Strings.TrackName}"
-                   VerticalOptions="Center"/>
-            <Entry x:Name="TrackNameEntry"
-                   Grid.Column="1"
-                   HorizontalOptions="FillAndExpand"
-                   MinimumWidthRequest="144"
-                   Text="{Binding TrackName}"/>
-            <Label Grid.Row="1"
-                   Text="{x:Static app_resources:Strings.TrackColor}"
-                   VerticalOptions="Center"/>
-            <BoxView Grid.Row="1"
-                     Grid.Column="1"
-                     Color="{Binding TrackColor, Mode=TwoWay}">
-                <BoxView.GestureRecognizers>
-                    <m:TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
-                </BoxView.GestureRecognizers>
-            </BoxView>
-            <Label Grid.Row="2"
-                   Text="{x:Static app_resources:Strings.SignalKind}"
-                   VerticalOptions="Center"/>
-            <Picker Grid.Row="2"
-                    Grid.Column="1"
-                    Title=""
-                    HorizontalOptions="StartAndExpand"
-                    SelectedItem="{Binding TrackSignalKind}"
-                    IsEnabled="{Binding NewTrack}"
-                    ItemsSource="{app_controls:StaticResourceBinding SignalKindsDict, Binding={Binding Items}}"
-                    ItemDisplayBinding="{Binding Path=.,
-                        Converter={
-                            app_controls:MappingConverter Mapping={app_controls:StaticResourceBinding SignalKindsDict, Binding={Binding DisplayMapping}},
-                            FallbackValue='missing mapping entry'}
-                        }"/>
-            <Border Grid.ColumnSpan="99"
-                    Grid.Row="3"
-                    Stroke="{StaticResource Gray200}"
-                    StrokeThickness="1">
-                <app_controls:DataTemplateView DataSource="{Binding TrackEditor}"
-                                               DataTemplate="{StaticResource TrackEditorTS}" />
-            </Border>
-            <Button Grid.ColumnSpan="99"
-                    Grid.Row="4"
-                    Text="{x:Static app_resources:Strings.Submit}"
-                    Command="{Binding DoSubmitCommand}"/>
-        </Grid>
-    </ScrollView>
+    <Grid>
+        <Image Style="{StaticResource PageBackgroundLogo}" />
+        <ScrollView HorizontalScrollBarVisibility="Never"
+                    VerticalScrollBarVisibility="Default">
+            <Grid ColumnDefinitions="Auto,*"
+                  ColumnSpacing="8"
+                  RowDefinitions="Auto,Auto,Auto,Auto,Auto"
+                  RowSpacing="16"
+                  HorizontalOptions="Fill">
+                <Label Text="{x:Static app_resources:Strings.TrackName}"
+                       VerticalOptions="Center"/>
+                <Entry x:Name="TrackNameEntry"
+                       Grid.Column="1"
+                       HorizontalOptions="FillAndExpand"
+                       MinimumWidthRequest="144"
+                       Text="{Binding TrackName}"/>
+                <Label Grid.Row="1"
+                       Text="{x:Static app_resources:Strings.TrackColor}"
+                       VerticalOptions="Center"/>
+                <BoxView Grid.Row="1"
+                         Grid.Column="1"
+                         Color="{Binding TrackColor, Mode=TwoWay}">
+                    <BoxView.GestureRecognizers>
+                        <m:TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
+                    </BoxView.GestureRecognizers>
+                </BoxView>
+                <Label Grid.Row="2"
+                       Text="{x:Static app_resources:Strings.SignalKind}"
+                       VerticalOptions="Center"/>
+                <Picker Grid.Row="2"
+                        Grid.Column="1"
+                        Title=""
+                        HorizontalOptions="StartAndExpand"
+                        SelectedItem="{Binding TrackSignalKind}"
+                        IsEnabled="{Binding NewTrack}"
+                        ItemsSource="{app_controls:StaticResourceBinding SignalKindsDict, Binding={Binding Items}}"
+                        ItemDisplayBinding="{Binding Path=.,
+                            Converter={
+                                app_controls:MappingConverter Mapping={
+                                    app_controls:StaticResourceBinding SignalKindsDict,
+                                                                       Binding={Binding DisplayMapping}},
+                                FallbackValue='missing mapping entry'}
+                            }"/>
+                <Border Grid.ColumnSpan="99"
+                        Grid.Row="3"
+                        Stroke="{StaticResource Gray200}"
+                        StrokeThickness="1">
+                    <app_controls:DataTemplateView DataSource="{Binding TrackEditor}"
+                                                   DataTemplate="{StaticResource TrackEditorTS}" />
+                </Border>
+                <Button Grid.ColumnSpan="99"
+                        Grid.Row="4"
+                        Text="{x:Static app_resources:Strings.Submit}"
+                        Command="{Binding DoSubmitCommand}"/>
+            </Grid>
+        </ScrollView>
+    </Grid>
 </ContentPage>

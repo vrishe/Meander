@@ -21,6 +21,9 @@ public sealed partial class MainViewModel : ObservableObject, IEnableable
     [ObservableProperty]
     private string _projectName;
 
+    [ObservableProperty]
+    private bool _hasTracks;
+
     public MainViewModel(Lazy<IFilePersistencyService> filePersistency, ILogger<App> logger, IShellNavigation navigation, ReduxStore<GlobalState> store)
     {
         _filePersistency = filePersistency;
@@ -63,6 +66,8 @@ public sealed partial class MainViewModel : ObservableObject, IEnableable
                         Tracks.Insert(entry.StartA + i + iOffset, t[entry.StartB + i]);
                     iOffset += entry.insertedB;
                 }
+
+                HasTracks = Tracks.Count > 1;
             })
             .PutOnRecord(_subscriptions);
     }
