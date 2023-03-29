@@ -14,6 +14,7 @@
         <app_controls:RevertedConversion x:Key="ColorCVT">
             <t:ColorToHexRgbStringConverter/>
         </app_controls:RevertedConversion>
+        <app_controls:FormattedStringMultiValueConverter x:Key="SignalTooltipCVT"/>
         <DataTemplate x:Key="ExistingSignalTrackItem"
                       x:DataType="app_state:SignalTrack">
             <Grid ColumnDefinitions="192,1,*"
@@ -25,6 +26,12 @@
                                         CommandParameter="{Binding .}"/>
                     </MenuFlyout>
                 </FlyoutBase.ContextFlyout>
+                <ToolTipProperties.Text>
+                    <MultiBinding Converter="{StaticResource SignalTooltipCVT}" ConverterParameter="{x:Static app_resources:Strings.SignalStatTooltipFormat}">
+                        <Binding Path="SignalStats.Avg" Source="{x:Reference SignalGraph}" />
+                        <Binding Path="SignalStats.Rms" Source="{x:Reference SignalGraph}" />
+                    </MultiBinding>
+                </ToolTipProperties.Text>
                 <Grid ColumnDefinitions="12,*"
                       ColumnSpacing="16">
                     <Rectangle Grid.Column="0"
@@ -38,7 +45,8 @@
                 </Grid>
                 <Rectangle Style="{DynamicResource SeparatorFill}"
                            Grid.Column="1"/>
-                <app_controls:SignalGraphView Grid.Column="2"
+                <app_controls:SignalGraphView x:Name="SignalGraph"
+                                              Grid.Column="2"
                                               GraphColor="{Binding Color, Converter={StaticResource ColorCVT}}"
                                               GraphThickness="2"
                                               SignalId="{Binding Id}"/>

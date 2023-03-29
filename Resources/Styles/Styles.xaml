@@ -3,7 +3,8 @@
 <ResourceDictionary 
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:t="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:app_controls="clr-namespace:Meander.Controls">
 
     <Style TargetType="ActivityIndicator">
         <Setter Property="Color" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource White}}" />
@@ -405,6 +406,13 @@
 
     <Style TargetType="t:Popup">
         <Setter Property="Color" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Gray900}}" />
+    </Style>
+
+    <Style TargetType="app_controls:SignalGraphView">
+        <Setter Property="AnnotationsColor" Value="{StaticResource Gray400}" />
+        <Setter Property="AnnotationsFontSize" Value="14" />
+        <Setter Property="AnnotationsFontFamily" Value="OpenSansRegular" />
+        <Setter Property="AnnotationsTextColor" Value="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}" />
     </Style>
     
     <Style x:Key="SeparatorFill" TargetType="Rectangle">

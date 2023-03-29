@@ -259,6 +259,15 @@ namespace Meander.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Avg.: {0:F3}, RMS: {1:F3}.
+        /// </summary>
+        public static string SignalStatTooltipFormat {
+            get {
+                return ResourceManager.GetString("SignalStatTooltipFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Step Level #{0}.
         /// </summary>
         public static string StepLevelFormat {

@@ -183,6 +183,9 @@
   <data name="SignalKind" xml:space="preserve">
     <value>Signal Kind</value>
   </data>
+  <data name="SignalStatTooltipFormat" xml:space="preserve">
+    <value>Avg.: {0:F3}, RMS: {1:F3}</value>
+  </data>
   <data name="StepLevelFormat" xml:space="preserve">
     <value>Step Level #{0}</value>
   </data>
